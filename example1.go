@@ -302,7 +302,9 @@ func (v *typesVisitor) VisitFieldListEmpty(ctx *parser.FieldListEmptyContext) in
 // FIELD NAME
 
 func (v *typesVisitor) VisitFieldNameFixed(ctx *parser.FieldNameFixedContext) interface{} {
-	return pipelang.FieldList_Field_Fixed{Fixed: ctx.GetName().GetText()}
+	name := ctx.GetName().GetText()
+	withoutQuotes := name[1 : len(name)-1]
+	return pipelang.FieldList_Field_Fixed{Fixed: withoutQuotes}
 }
 
 func (v *typesVisitor) VisitFieldNameVariable(ctx *parser.FieldNameVariableContext) interface{} {
@@ -365,7 +367,7 @@ func ParseType(input string) (pipelang.PipelangType, error) {
 }
 
 func main() {
-	result, err := ParseType("{a: int32, b: string, {{c}}:(int32, {{a}})...}")
+	result, err := ParseType("{a: int32, b: string, $c:(int32, $a)...}")
 	if err != nil {
 		panic(err)
 	} else {

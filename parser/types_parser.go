@@ -33,13 +33,12 @@ var typesParserStaticData struct {
 func typesParserInit() {
 	staticData := &typesParserStaticData
 	staticData.literalNames = []string{
-		"", "'['", "']'", "'{{'", "'}}'", "'('", "')'", "'|'", "'{'", "'}'",
-		"'<'", "'>'", "'...'", "','", "':'", "'int32'", "'uint32'", "'int64'",
-		"'uint64'", "'string'", "'bool'", "'bytes'", "'double'", "'float'",
-		"'char'",
+		"", "'['", "']'", "'$'", "'('", "')'", "'|'", "'{'", "'}'", "'<'", "'>'",
+		"'...'", "','", "':'", "'int32'", "'uint32'", "'int64'", "'uint64'",
+		"'string'", "'bool'", "'bytes'", "'double'", "'float'", "'char'",
 	}
 	staticData.symbolicNames = []string{
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ATOMIC_INT32",
+		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "ATOMIC_INT32",
 		"ATOMIC_UINT32", "ATOMIC_INT64", "ATOMIC_UINT64", "ATOMIC_STRING", "ATOMIC_BOOL",
 		"ATOMIC_BYTES", "ATOMIC_DOUBLE", "ATOMIC_FLOAT", "ATOMIC_CHAR", "IDENT",
 		"FIXED_FIELDNAME", "WHITESPACE",
@@ -50,73 +49,71 @@ func typesParserInit() {
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 27, 151, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 26, 148, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 44, 8, 1,
-		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 2, 52, 8, 2, 11, 2, 12, 2, 53, 1,
-		2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 2, 61, 8, 2, 11, 2, 12, 2, 62, 1, 2, 1, 2,
-		1, 2, 1, 2, 3, 2, 69, 8, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 3, 77,
-		8, 3, 11, 3, 12, 3, 78, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 3, 86, 8, 3, 11,
-		3, 12, 3, 87, 1, 3, 1, 3, 1, 3, 1, 3, 3, 3, 94, 8, 3, 1, 4, 1, 4, 1, 4,
-		1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 108, 8, 4,
-		11, 4, 12, 4, 109, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4,
-		4, 4, 121, 8, 4, 11, 4, 12, 4, 122, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4,
-		1, 4, 1, 4, 3, 4, 133, 8, 4, 1, 5, 1, 5, 3, 5, 137, 8, 5, 1, 6, 1, 6, 1,
-		6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 3, 6, 149, 8, 6, 1, 6, 0,
-		0, 7, 0, 2, 4, 6, 8, 10, 12, 0, 0, 175, 0, 14, 1, 0, 0, 0, 2, 43, 1, 0,
-		0, 0, 4, 68, 1, 0, 0, 0, 6, 93, 1, 0, 0, 0, 8, 132, 1, 0, 0, 0, 10, 136,
-		1, 0, 0, 0, 12, 148, 1, 0, 0, 0, 14, 15, 3, 2, 1, 0, 15, 16, 5, 0, 0, 1,
-		16, 1, 1, 0, 0, 0, 17, 18, 5, 1, 0, 0, 18, 19, 3, 2, 1, 0, 19, 20, 5, 2,
-		0, 0, 20, 44, 1, 0, 0, 0, 21, 44, 5, 25, 0, 0, 22, 23, 5, 3, 0, 0, 23,
-		24, 5, 25, 0, 0, 24, 44, 5, 4, 0, 0, 25, 26, 5, 5, 0, 0, 26, 27, 3, 4,
-		2, 0, 27, 28, 5, 6, 0, 0, 28, 44, 1, 0, 0, 0, 29, 30, 5, 7, 0, 0, 30, 31,
-		3, 6, 3, 0, 31, 32, 5, 7, 0, 0, 32, 44, 1, 0, 0, 0, 33, 34, 5, 8, 0, 0,
-		34, 35, 3, 8, 4, 0, 35, 36, 5, 9, 0, 0, 36, 44, 1, 0, 0, 0, 37, 38, 5,
-		25, 0, 0, 38, 39, 5, 10, 0, 0, 39, 40, 3, 4, 2, 0, 40, 41, 5, 11, 0, 0,
-		41, 44, 1, 0, 0, 0, 42, 44, 3, 12, 6, 0, 43, 17, 1, 0, 0, 0, 43, 21, 1,
-		0, 0, 0, 43, 22, 1, 0, 0, 0, 43, 25, 1, 0, 0, 0, 43, 29, 1, 0, 0, 0, 43,
-		33, 1, 0, 0, 0, 43, 37, 1, 0, 0, 0, 43, 42, 1, 0, 0, 0, 44, 3, 1, 0, 0,
-		0, 45, 46, 3, 2, 1, 0, 46, 47, 5, 12, 0, 0, 47, 69, 1, 0, 0, 0, 48, 49,
-		3, 2, 1, 0, 49, 50, 5, 13, 0, 0, 50, 52, 1, 0, 0, 0, 51, 48, 1, 0, 0, 0,
-		52, 53, 1, 0, 0, 0, 53, 51, 1, 0, 0, 0, 53, 54, 1, 0, 0, 0, 54, 55, 1,
-		0, 0, 0, 55, 56, 3, 2, 1, 0, 56, 69, 1, 0, 0, 0, 57, 58, 3, 2, 1, 0, 58,
-		59, 5, 13, 0, 0, 59, 61, 1, 0, 0, 0, 60, 57, 1, 0, 0, 0, 61, 62, 1, 0,
-		0, 0, 62, 60, 1, 0, 0, 0, 62, 63, 1, 0, 0, 0, 63, 64, 1, 0, 0, 0, 64, 65,
-		3, 2, 1, 0, 65, 66, 5, 12, 0, 0, 66, 69, 1, 0, 0, 0, 67, 69, 1, 0, 0, 0,
-		68, 45, 1, 0, 0, 0, 68, 51, 1, 0, 0, 0, 68, 60, 1, 0, 0, 0, 68, 67, 1,
-		0, 0, 0, 69, 5, 1, 0, 0, 0, 70, 71, 3, 2, 1, 0, 71, 72, 5, 12, 0, 0, 72,
-		94, 1, 0, 0, 0, 73, 74, 3, 2, 1, 0, 74, 75, 5, 7, 0, 0, 75, 77, 1, 0, 0,
-		0, 76, 73, 1, 0, 0, 0, 77, 78, 1, 0, 0, 0, 78, 76, 1, 0, 0, 0, 78, 79,
-		1, 0, 0, 0, 79, 80, 1, 0, 0, 0, 80, 81, 3, 2, 1, 0, 81, 94, 1, 0, 0, 0,
-		82, 83, 3, 2, 1, 0, 83, 84, 5, 7, 0, 0, 84, 86, 1, 0, 0, 0, 85, 82, 1,
-		0, 0, 0, 86, 87, 1, 0, 0, 0, 87, 85, 1, 0, 0, 0, 87, 88, 1, 0, 0, 0, 88,
-		89, 1, 0, 0, 0, 89, 90, 3, 2, 1, 0, 90, 91, 5, 12, 0, 0, 91, 94, 1, 0,
-		0, 0, 92, 94, 1, 0, 0, 0, 93, 70, 1, 0, 0, 0, 93, 76, 1, 0, 0, 0, 93, 85,
-		1, 0, 0, 0, 93, 92, 1, 0, 0, 0, 94, 7, 1, 0, 0, 0, 95, 96, 5, 3, 0, 0,
-		96, 97, 5, 25, 0, 0, 97, 98, 5, 4, 0, 0, 98, 99, 5, 14, 0, 0, 99, 100,
-		3, 2, 1, 0, 100, 101, 5, 12, 0, 0, 101, 133, 1, 0, 0, 0, 102, 103, 3, 10,
-		5, 0, 103, 104, 5, 14, 0, 0, 104, 105, 3, 2, 1, 0, 105, 106, 5, 13, 0,
-		0, 106, 108, 1, 0, 0, 0, 107, 102, 1, 0, 0, 0, 108, 109, 1, 0, 0, 0, 109,
-		107, 1, 0, 0, 0, 109, 110, 1, 0, 0, 0, 110, 111, 1, 0, 0, 0, 111, 112,
-		3, 10, 5, 0, 112, 113, 5, 14, 0, 0, 113, 114, 3, 2, 1, 0, 114, 133, 1,
-		0, 0, 0, 115, 116, 3, 10, 5, 0, 116, 117, 5, 14, 0, 0, 117, 118, 3, 2,
-		1, 0, 118, 119, 5, 13, 0, 0, 119, 121, 1, 0, 0, 0, 120, 115, 1, 0, 0, 0,
-		121, 122, 1, 0, 0, 0, 122, 120, 1, 0, 0, 0, 122, 123, 1, 0, 0, 0, 123,
-		124, 1, 0, 0, 0, 124, 125, 5, 3, 0, 0, 125, 126, 5, 25, 0, 0, 126, 127,
-		5, 4, 0, 0, 127, 128, 5, 14, 0, 0, 128, 129, 3, 2, 1, 0, 129, 130, 5, 12,
-		0, 0, 130, 133, 1, 0, 0, 0, 131, 133, 1, 0, 0, 0, 132, 95, 1, 0, 0, 0,
-		132, 107, 1, 0, 0, 0, 132, 120, 1, 0, 0, 0, 132, 131, 1, 0, 0, 0, 133,
-		9, 1, 0, 0, 0, 134, 137, 5, 26, 0, 0, 135, 137, 5, 25, 0, 0, 136, 134,
-		1, 0, 0, 0, 136, 135, 1, 0, 0, 0, 137, 11, 1, 0, 0, 0, 138, 149, 5, 15,
-		0, 0, 139, 149, 5, 16, 0, 0, 140, 149, 5, 17, 0, 0, 141, 149, 5, 18, 0,
-		0, 142, 149, 5, 19, 0, 0, 143, 149, 5, 20, 0, 0, 144, 149, 5, 21, 0, 0,
-		145, 149, 5, 22, 0, 0, 146, 149, 5, 23, 0, 0, 147, 149, 5, 24, 0, 0, 148,
-		138, 1, 0, 0, 0, 148, 139, 1, 0, 0, 0, 148, 140, 1, 0, 0, 0, 148, 141,
-		1, 0, 0, 0, 148, 142, 1, 0, 0, 0, 148, 143, 1, 0, 0, 0, 148, 144, 1, 0,
-		0, 0, 148, 145, 1, 0, 0, 0, 148, 146, 1, 0, 0, 0, 148, 147, 1, 0, 0, 0,
-		149, 13, 1, 0, 0, 0, 12, 43, 53, 62, 68, 78, 87, 93, 109, 122, 132, 136,
-		148,
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 43, 8, 1, 1, 2,
+		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 2, 51, 8, 2, 11, 2, 12, 2, 52, 1, 2, 1,
+		2, 1, 2, 1, 2, 1, 2, 4, 2, 60, 8, 2, 11, 2, 12, 2, 61, 1, 2, 1, 2, 1, 2,
+		1, 2, 3, 2, 68, 8, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 3, 76, 8,
+		3, 11, 3, 12, 3, 77, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 3, 85, 8, 3, 11,
+		3, 12, 3, 86, 1, 3, 1, 3, 1, 3, 1, 3, 3, 3, 93, 8, 3, 1, 4, 1, 4, 1, 4,
+		1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 106, 8, 4, 11, 4,
+		12, 4, 107, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4,
+		119, 8, 4, 11, 4, 12, 4, 120, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4,
+		3, 4, 130, 8, 4, 1, 5, 1, 5, 3, 5, 134, 8, 5, 1, 6, 1, 6, 1, 6, 1, 6, 1,
+		6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 3, 6, 146, 8, 6, 1, 6, 0, 0, 7, 0, 2,
+		4, 6, 8, 10, 12, 0, 0, 172, 0, 14, 1, 0, 0, 0, 2, 42, 1, 0, 0, 0, 4, 67,
+		1, 0, 0, 0, 6, 92, 1, 0, 0, 0, 8, 129, 1, 0, 0, 0, 10, 133, 1, 0, 0, 0,
+		12, 145, 1, 0, 0, 0, 14, 15, 3, 2, 1, 0, 15, 16, 5, 0, 0, 1, 16, 1, 1,
+		0, 0, 0, 17, 18, 5, 1, 0, 0, 18, 19, 3, 2, 1, 0, 19, 20, 5, 2, 0, 0, 20,
+		43, 1, 0, 0, 0, 21, 43, 5, 24, 0, 0, 22, 23, 5, 3, 0, 0, 23, 43, 5, 24,
+		0, 0, 24, 25, 5, 4, 0, 0, 25, 26, 3, 4, 2, 0, 26, 27, 5, 5, 0, 0, 27, 43,
+		1, 0, 0, 0, 28, 29, 5, 6, 0, 0, 29, 30, 3, 6, 3, 0, 30, 31, 5, 6, 0, 0,
+		31, 43, 1, 0, 0, 0, 32, 33, 5, 7, 0, 0, 33, 34, 3, 8, 4, 0, 34, 35, 5,
+		8, 0, 0, 35, 43, 1, 0, 0, 0, 36, 37, 5, 24, 0, 0, 37, 38, 5, 9, 0, 0, 38,
+		39, 3, 4, 2, 0, 39, 40, 5, 10, 0, 0, 40, 43, 1, 0, 0, 0, 41, 43, 3, 12,
+		6, 0, 42, 17, 1, 0, 0, 0, 42, 21, 1, 0, 0, 0, 42, 22, 1, 0, 0, 0, 42, 24,
+		1, 0, 0, 0, 42, 28, 1, 0, 0, 0, 42, 32, 1, 0, 0, 0, 42, 36, 1, 0, 0, 0,
+		42, 41, 1, 0, 0, 0, 43, 3, 1, 0, 0, 0, 44, 45, 3, 2, 1, 0, 45, 46, 5, 11,
+		0, 0, 46, 68, 1, 0, 0, 0, 47, 48, 3, 2, 1, 0, 48, 49, 5, 12, 0, 0, 49,
+		51, 1, 0, 0, 0, 50, 47, 1, 0, 0, 0, 51, 52, 1, 0, 0, 0, 52, 50, 1, 0, 0,
+		0, 52, 53, 1, 0, 0, 0, 53, 54, 1, 0, 0, 0, 54, 55, 3, 2, 1, 0, 55, 68,
+		1, 0, 0, 0, 56, 57, 3, 2, 1, 0, 57, 58, 5, 12, 0, 0, 58, 60, 1, 0, 0, 0,
+		59, 56, 1, 0, 0, 0, 60, 61, 1, 0, 0, 0, 61, 59, 1, 0, 0, 0, 61, 62, 1,
+		0, 0, 0, 62, 63, 1, 0, 0, 0, 63, 64, 3, 2, 1, 0, 64, 65, 5, 11, 0, 0, 65,
+		68, 1, 0, 0, 0, 66, 68, 1, 0, 0, 0, 67, 44, 1, 0, 0, 0, 67, 50, 1, 0, 0,
+		0, 67, 59, 1, 0, 0, 0, 67, 66, 1, 0, 0, 0, 68, 5, 1, 0, 0, 0, 69, 70, 3,
+		2, 1, 0, 70, 71, 5, 11, 0, 0, 71, 93, 1, 0, 0, 0, 72, 73, 3, 2, 1, 0, 73,
+		74, 5, 6, 0, 0, 74, 76, 1, 0, 0, 0, 75, 72, 1, 0, 0, 0, 76, 77, 1, 0, 0,
+		0, 77, 75, 1, 0, 0, 0, 77, 78, 1, 0, 0, 0, 78, 79, 1, 0, 0, 0, 79, 80,
+		3, 2, 1, 0, 80, 93, 1, 0, 0, 0, 81, 82, 3, 2, 1, 0, 82, 83, 5, 6, 0, 0,
+		83, 85, 1, 0, 0, 0, 84, 81, 1, 0, 0, 0, 85, 86, 1, 0, 0, 0, 86, 84, 1,
+		0, 0, 0, 86, 87, 1, 0, 0, 0, 87, 88, 1, 0, 0, 0, 88, 89, 3, 2, 1, 0, 89,
+		90, 5, 11, 0, 0, 90, 93, 1, 0, 0, 0, 91, 93, 1, 0, 0, 0, 92, 69, 1, 0,
+		0, 0, 92, 75, 1, 0, 0, 0, 92, 84, 1, 0, 0, 0, 92, 91, 1, 0, 0, 0, 93, 7,
+		1, 0, 0, 0, 94, 95, 5, 3, 0, 0, 95, 96, 5, 24, 0, 0, 96, 97, 5, 13, 0,
+		0, 97, 98, 3, 2, 1, 0, 98, 99, 5, 11, 0, 0, 99, 130, 1, 0, 0, 0, 100, 101,
+		3, 10, 5, 0, 101, 102, 5, 13, 0, 0, 102, 103, 3, 2, 1, 0, 103, 104, 5,
+		12, 0, 0, 104, 106, 1, 0, 0, 0, 105, 100, 1, 0, 0, 0, 106, 107, 1, 0, 0,
+		0, 107, 105, 1, 0, 0, 0, 107, 108, 1, 0, 0, 0, 108, 109, 1, 0, 0, 0, 109,
+		110, 3, 10, 5, 0, 110, 111, 5, 13, 0, 0, 111, 112, 3, 2, 1, 0, 112, 130,
+		1, 0, 0, 0, 113, 114, 3, 10, 5, 0, 114, 115, 5, 13, 0, 0, 115, 116, 3,
+		2, 1, 0, 116, 117, 5, 12, 0, 0, 117, 119, 1, 0, 0, 0, 118, 113, 1, 0, 0,
+		0, 119, 120, 1, 0, 0, 0, 120, 118, 1, 0, 0, 0, 120, 121, 1, 0, 0, 0, 121,
+		122, 1, 0, 0, 0, 122, 123, 5, 3, 0, 0, 123, 124, 5, 24, 0, 0, 124, 125,
+		5, 13, 0, 0, 125, 126, 3, 2, 1, 0, 126, 127, 5, 11, 0, 0, 127, 130, 1,
+		0, 0, 0, 128, 130, 1, 0, 0, 0, 129, 94, 1, 0, 0, 0, 129, 105, 1, 0, 0,
+		0, 129, 118, 1, 0, 0, 0, 129, 128, 1, 0, 0, 0, 130, 9, 1, 0, 0, 0, 131,
+		134, 5, 25, 0, 0, 132, 134, 5, 24, 0, 0, 133, 131, 1, 0, 0, 0, 133, 132,
+		1, 0, 0, 0, 134, 11, 1, 0, 0, 0, 135, 146, 5, 14, 0, 0, 136, 146, 5, 15,
+		0, 0, 137, 146, 5, 16, 0, 0, 138, 146, 5, 17, 0, 0, 139, 146, 5, 18, 0,
+		0, 140, 146, 5, 19, 0, 0, 141, 146, 5, 20, 0, 0, 142, 146, 5, 21, 0, 0,
+		143, 146, 5, 22, 0, 0, 144, 146, 5, 23, 0, 0, 145, 135, 1, 0, 0, 0, 145,
+		136, 1, 0, 0, 0, 145, 137, 1, 0, 0, 0, 145, 138, 1, 0, 0, 0, 145, 139,
+		1, 0, 0, 0, 145, 140, 1, 0, 0, 0, 145, 141, 1, 0, 0, 0, 145, 142, 1, 0,
+		0, 0, 145, 143, 1, 0, 0, 0, 145, 144, 1, 0, 0, 0, 146, 13, 1, 0, 0, 0,
+		12, 42, 52, 61, 67, 77, 86, 92, 107, 120, 129, 133, 145,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -168,20 +165,19 @@ const (
 	TypesParserT__10           = 11
 	TypesParserT__11           = 12
 	TypesParserT__12           = 13
-	TypesParserT__13           = 14
-	TypesParserATOMIC_INT32    = 15
-	TypesParserATOMIC_UINT32   = 16
-	TypesParserATOMIC_INT64    = 17
-	TypesParserATOMIC_UINT64   = 18
-	TypesParserATOMIC_STRING   = 19
-	TypesParserATOMIC_BOOL     = 20
-	TypesParserATOMIC_BYTES    = 21
-	TypesParserATOMIC_DOUBLE   = 22
-	TypesParserATOMIC_FLOAT    = 23
-	TypesParserATOMIC_CHAR     = 24
-	TypesParserIDENT           = 25
-	TypesParserFIXED_FIELDNAME = 26
-	TypesParserWHITESPACE      = 27
+	TypesParserATOMIC_INT32    = 14
+	TypesParserATOMIC_UINT32   = 15
+	TypesParserATOMIC_INT64    = 16
+	TypesParserATOMIC_UINT64   = 17
+	TypesParserATOMIC_STRING   = 18
+	TypesParserATOMIC_BOOL     = 19
+	TypesParserATOMIC_BYTES    = 20
+	TypesParserATOMIC_DOUBLE   = 21
+	TypesParserATOMIC_FLOAT    = 22
+	TypesParserATOMIC_CHAR     = 23
+	TypesParserIDENT           = 24
+	TypesParserFIXED_FIELDNAME = 25
+	TypesParserWHITESPACE      = 26
 )
 
 // TypesParser rules.
@@ -771,7 +767,7 @@ func (p *TypesParser) Type() (localctx ITypeContext) {
 		}
 	}()
 
-	p.SetState(43)
+	p.SetState(42)
 	p.GetErrorHandler().Sync(p)
 	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 0, p.GetParserRuleContext()) {
 	case 1:
@@ -818,99 +814,95 @@ func (p *TypesParser) Type() (localctx ITypeContext) {
 
 			localctx.(*PackVarContext).name = _m
 		}
-		{
-			p.SetState(24)
-			p.Match(TypesParserT__3)
-		}
 
 	case 4:
 		localctx = NewTupleContext(p, localctx)
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(25)
-			p.Match(TypesParserT__4)
+			p.SetState(24)
+			p.Match(TypesParserT__3)
 		}
 		{
-			p.SetState(26)
+			p.SetState(25)
 
 			var _x = p.TupleTypeList()
 
 			localctx.(*TupleContext).types = _x
 		}
 		{
-			p.SetState(27)
-			p.Match(TypesParserT__5)
+			p.SetState(26)
+			p.Match(TypesParserT__4)
 		}
 
 	case 5:
 		localctx = NewUnionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(29)
-			p.Match(TypesParserT__6)
+			p.SetState(28)
+			p.Match(TypesParserT__5)
 		}
 		{
-			p.SetState(30)
+			p.SetState(29)
 
 			var _x = p.UnionTypeList()
 
 			localctx.(*UnionContext).types = _x
 		}
 		{
-			p.SetState(31)
-			p.Match(TypesParserT__6)
+			p.SetState(30)
+			p.Match(TypesParserT__5)
 		}
 
 	case 6:
 		localctx = NewStructContext(p, localctx)
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(33)
-			p.Match(TypesParserT__7)
+			p.SetState(32)
+			p.Match(TypesParserT__6)
 		}
 		{
-			p.SetState(34)
+			p.SetState(33)
 
 			var _x = p.FieldList()
 
 			localctx.(*StructContext).fields = _x
 		}
 		{
-			p.SetState(35)
-			p.Match(TypesParserT__8)
+			p.SetState(34)
+			p.Match(TypesParserT__7)
 		}
 
 	case 7:
 		localctx = NewNamedContext(p, localctx)
 		p.EnterOuterAlt(localctx, 7)
 		{
-			p.SetState(37)
+			p.SetState(36)
 
 			var _m = p.Match(TypesParserIDENT)
 
 			localctx.(*NamedContext).name = _m
 		}
 		{
-			p.SetState(38)
-			p.Match(TypesParserT__9)
+			p.SetState(37)
+			p.Match(TypesParserT__8)
 		}
 		{
-			p.SetState(39)
+			p.SetState(38)
 
 			var _x = p.TupleTypeList()
 
 			localctx.(*NamedContext).types = _x
 		}
 		{
-			p.SetState(40)
-			p.Match(TypesParserT__10)
+			p.SetState(39)
+			p.Match(TypesParserT__9)
 		}
 
 	case 8:
 		localctx = NewAtomicTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 8)
 		{
-			p.SetState(42)
+			p.SetState(41)
 
 			var _x = p.Atomic()
 
@@ -1242,35 +1234,35 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 
 	var _alt int
 
-	p.SetState(68)
+	p.SetState(67)
 	p.GetErrorHandler().Sync(p)
 	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewTupleTypeListOnlyExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(45)
+			p.SetState(44)
 
 			var _x = p.Type()
 
 			localctx.(*TupleTypeListOnlyExpansionContext).pattern = _x
 		}
 		{
-			p.SetState(46)
-			p.Match(TypesParserT__11)
+			p.SetState(45)
+			p.Match(TypesParserT__10)
 		}
 
 	case 2:
 		localctx = NewTupleTypeListNoExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
-		p.SetState(51)
+		p.SetState(50)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(48)
+					p.SetState(47)
 
 					var _x = p.Type()
 
@@ -1278,20 +1270,20 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 				}
 				localctx.(*TupleTypeListNoExpansionContext).types = append(localctx.(*TupleTypeListNoExpansionContext).types, localctx.(*TupleTypeListNoExpansionContext)._type)
 				{
-					p.SetState(49)
-					p.Match(TypesParserT__12)
+					p.SetState(48)
+					p.Match(TypesParserT__11)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(53)
+			p.SetState(52)
 			p.GetErrorHandler().Sync(p)
 			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(55)
+			p.SetState(54)
 
 			var _x = p.Type()
 
@@ -1301,14 +1293,14 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 	case 3:
 		localctx = NewTupleTypeListExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
-		p.SetState(60)
+		p.SetState(59)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(57)
+					p.SetState(56)
 
 					var _x = p.Type()
 
@@ -1316,28 +1308,28 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 				}
 				localctx.(*TupleTypeListExpansionContext).types = append(localctx.(*TupleTypeListExpansionContext).types, localctx.(*TupleTypeListExpansionContext)._type)
 				{
-					p.SetState(58)
-					p.Match(TypesParserT__12)
+					p.SetState(57)
+					p.Match(TypesParserT__11)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(62)
+			p.SetState(61)
 			p.GetErrorHandler().Sync(p)
 			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(64)
+			p.SetState(63)
 
 			var _x = p.Type()
 
 			localctx.(*TupleTypeListExpansionContext).pattern = _x
 		}
 		{
-			p.SetState(65)
-			p.Match(TypesParserT__11)
+			p.SetState(64)
+			p.Match(TypesParserT__10)
 		}
 
 	case 4:
@@ -1669,35 +1661,35 @@ func (p *TypesParser) UnionTypeList() (localctx IUnionTypeListContext) {
 
 	var _alt int
 
-	p.SetState(93)
+	p.SetState(92)
 	p.GetErrorHandler().Sync(p)
 	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewUnionTypeListOnlyExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(70)
+			p.SetState(69)
 
 			var _x = p.Type()
 
 			localctx.(*UnionTypeListOnlyExpansionContext).pattern = _x
 		}
 		{
-			p.SetState(71)
-			p.Match(TypesParserT__11)
+			p.SetState(70)
+			p.Match(TypesParserT__10)
 		}
 
 	case 2:
 		localctx = NewUnionTypeListNoExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
-		p.SetState(76)
+		p.SetState(75)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(73)
+					p.SetState(72)
 
 					var _x = p.Type()
 
@@ -1705,20 +1697,20 @@ func (p *TypesParser) UnionTypeList() (localctx IUnionTypeListContext) {
 				}
 				localctx.(*UnionTypeListNoExpansionContext).types = append(localctx.(*UnionTypeListNoExpansionContext).types, localctx.(*UnionTypeListNoExpansionContext)._type)
 				{
-					p.SetState(74)
-					p.Match(TypesParserT__6)
+					p.SetState(73)
+					p.Match(TypesParserT__5)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(78)
+			p.SetState(77)
 			p.GetErrorHandler().Sync(p)
 			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(80)
+			p.SetState(79)
 
 			var _x = p.Type()
 
@@ -1728,14 +1720,14 @@ func (p *TypesParser) UnionTypeList() (localctx IUnionTypeListContext) {
 	case 3:
 		localctx = NewUnionTypeListExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
-		p.SetState(85)
+		p.SetState(84)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(82)
+					p.SetState(81)
 
 					var _x = p.Type()
 
@@ -1743,28 +1735,28 @@ func (p *TypesParser) UnionTypeList() (localctx IUnionTypeListContext) {
 				}
 				localctx.(*UnionTypeListExpansionContext).types = append(localctx.(*UnionTypeListExpansionContext).types, localctx.(*UnionTypeListExpansionContext)._type)
 				{
-					p.SetState(83)
-					p.Match(TypesParserT__6)
+					p.SetState(82)
+					p.Match(TypesParserT__5)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(87)
+			p.SetState(86)
 			p.GetErrorHandler().Sync(p)
 			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(89)
+			p.SetState(88)
 
 			var _x = p.Type()
 
 			localctx.(*UnionTypeListExpansionContext).pattern = _x
 		}
 		{
-			p.SetState(90)
-			p.Match(TypesParserT__11)
+			p.SetState(89)
+			p.Match(TypesParserT__10)
 		}
 
 	case 4:
@@ -2222,54 +2214,50 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 
 	var _alt int
 
-	p.SetState(132)
+	p.SetState(129)
 	p.GetErrorHandler().Sync(p)
 	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 9, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewFieldListOnlyExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(95)
+			p.SetState(94)
 			p.Match(TypesParserT__2)
 		}
 		{
-			p.SetState(96)
+			p.SetState(95)
 
 			var _m = p.Match(TypesParserIDENT)
 
 			localctx.(*FieldListOnlyExpansionContext).namePattern = _m
 		}
 		{
+			p.SetState(96)
+			p.Match(TypesParserT__12)
+		}
+		{
 			p.SetState(97)
-			p.Match(TypesParserT__3)
-		}
-		{
-			p.SetState(98)
-			p.Match(TypesParserT__13)
-		}
-		{
-			p.SetState(99)
 
 			var _x = p.Type()
 
 			localctx.(*FieldListOnlyExpansionContext).typePattern = _x
 		}
 		{
-			p.SetState(100)
-			p.Match(TypesParserT__11)
+			p.SetState(98)
+			p.Match(TypesParserT__10)
 		}
 
 	case 2:
 		localctx = NewFieldListNoExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
-		p.SetState(107)
+		p.SetState(105)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(102)
+					p.SetState(100)
 
 					var _x = p.FieldName()
 
@@ -2277,11 +2265,11 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 				}
 				localctx.(*FieldListNoExpansionContext).names = append(localctx.(*FieldListNoExpansionContext).names, localctx.(*FieldListNoExpansionContext)._fieldName)
 				{
-					p.SetState(103)
-					p.Match(TypesParserT__13)
+					p.SetState(101)
+					p.Match(TypesParserT__12)
 				}
 				{
-					p.SetState(104)
+					p.SetState(102)
 
 					var _x = p.Type()
 
@@ -2289,31 +2277,31 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 				}
 				localctx.(*FieldListNoExpansionContext).types = append(localctx.(*FieldListNoExpansionContext).types, localctx.(*FieldListNoExpansionContext)._type)
 				{
-					p.SetState(105)
-					p.Match(TypesParserT__12)
+					p.SetState(103)
+					p.Match(TypesParserT__11)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(109)
+			p.SetState(107)
 			p.GetErrorHandler().Sync(p)
 			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(111)
+			p.SetState(109)
 
 			var _x = p.FieldName()
 
 			localctx.(*FieldListNoExpansionContext).finalName = _x
 		}
 		{
-			p.SetState(112)
-			p.Match(TypesParserT__13)
+			p.SetState(110)
+			p.Match(TypesParserT__12)
 		}
 		{
-			p.SetState(113)
+			p.SetState(111)
 
 			var _x = p.Type()
 
@@ -2323,13 +2311,13 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 	case 3:
 		localctx = NewFieldListExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
-		p.SetState(120)
+		p.SetState(118)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
 		for ok := true; ok; ok = _la == TypesParserIDENT || _la == TypesParserFIXED_FIELDNAME {
 			{
-				p.SetState(115)
+				p.SetState(113)
 
 				var _x = p.FieldName()
 
@@ -2337,11 +2325,11 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 			}
 			localctx.(*FieldListExpansionContext).names = append(localctx.(*FieldListExpansionContext).names, localctx.(*FieldListExpansionContext)._fieldName)
 			{
-				p.SetState(116)
-				p.Match(TypesParserT__13)
+				p.SetState(114)
+				p.Match(TypesParserT__12)
 			}
 			{
-				p.SetState(117)
+				p.SetState(115)
 
 				var _x = p.Type()
 
@@ -2349,43 +2337,39 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 			}
 			localctx.(*FieldListExpansionContext).types = append(localctx.(*FieldListExpansionContext).types, localctx.(*FieldListExpansionContext)._type)
 			{
-				p.SetState(118)
-				p.Match(TypesParserT__12)
+				p.SetState(116)
+				p.Match(TypesParserT__11)
 			}
 
-			p.SetState(122)
+			p.SetState(120)
 			p.GetErrorHandler().Sync(p)
 			_la = p.GetTokenStream().LA(1)
 		}
 		{
-			p.SetState(124)
+			p.SetState(122)
 			p.Match(TypesParserT__2)
 		}
 		{
-			p.SetState(125)
+			p.SetState(123)
 
 			var _m = p.Match(TypesParserIDENT)
 
 			localctx.(*FieldListExpansionContext).namePattern = _m
 		}
 		{
-			p.SetState(126)
-			p.Match(TypesParserT__3)
+			p.SetState(124)
+			p.Match(TypesParserT__12)
 		}
 		{
-			p.SetState(127)
-			p.Match(TypesParserT__13)
-		}
-		{
-			p.SetState(128)
+			p.SetState(125)
 
 			var _x = p.Type()
 
 			localctx.(*FieldListExpansionContext).typePattern = _x
 		}
 		{
-			p.SetState(129)
-			p.Match(TypesParserT__11)
+			p.SetState(126)
+			p.Match(TypesParserT__10)
 		}
 
 	case 4:
@@ -2544,7 +2528,7 @@ func (p *TypesParser) FieldName() (localctx IFieldNameContext) {
 		}
 	}()
 
-	p.SetState(136)
+	p.SetState(133)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
@@ -2552,7 +2536,7 @@ func (p *TypesParser) FieldName() (localctx IFieldNameContext) {
 		localctx = NewFieldNameFixedContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(134)
+			p.SetState(131)
 
 			var _m = p.Match(TypesParserFIXED_FIELDNAME)
 
@@ -2563,7 +2547,7 @@ func (p *TypesParser) FieldName() (localctx IFieldNameContext) {
 		localctx = NewFieldNameVariableContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(135)
+			p.SetState(132)
 
 			var _m = p.Match(TypesParserIDENT)
 
@@ -2707,14 +2691,14 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 		}
 	}()
 
-	p.SetState(148)
+	p.SetState(145)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case TypesParserATOMIC_INT32:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(138)
+			p.SetState(135)
 
 			var _m = p.Match(TypesParserATOMIC_INT32)
 
@@ -2724,7 +2708,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_UINT32:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(139)
+			p.SetState(136)
 
 			var _m = p.Match(TypesParserATOMIC_UINT32)
 
@@ -2734,7 +2718,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_INT64:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(140)
+			p.SetState(137)
 
 			var _m = p.Match(TypesParserATOMIC_INT64)
 
@@ -2744,7 +2728,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_UINT64:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(141)
+			p.SetState(138)
 
 			var _m = p.Match(TypesParserATOMIC_UINT64)
 
@@ -2754,7 +2738,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_STRING:
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(142)
+			p.SetState(139)
 
 			var _m = p.Match(TypesParserATOMIC_STRING)
 
@@ -2764,7 +2748,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_BOOL:
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(143)
+			p.SetState(140)
 
 			var _m = p.Match(TypesParserATOMIC_BOOL)
 
@@ -2774,7 +2758,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_BYTES:
 		p.EnterOuterAlt(localctx, 7)
 		{
-			p.SetState(144)
+			p.SetState(141)
 
 			var _m = p.Match(TypesParserATOMIC_BYTES)
 
@@ -2784,7 +2768,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_DOUBLE:
 		p.EnterOuterAlt(localctx, 8)
 		{
-			p.SetState(145)
+			p.SetState(142)
 
 			var _m = p.Match(TypesParserATOMIC_DOUBLE)
 
@@ -2794,7 +2778,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_FLOAT:
 		p.EnterOuterAlt(localctx, 9)
 		{
-			p.SetState(146)
+			p.SetState(143)
 
 			var _m = p.Match(TypesParserATOMIC_FLOAT)
 
@@ -2804,7 +2788,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_CHAR:
 		p.EnterOuterAlt(localctx, 10)
 		{
-			p.SetState(147)
+			p.SetState(144)
 
 			var _m = p.Match(TypesParserATOMIC_CHAR)
 

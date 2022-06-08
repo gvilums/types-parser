@@ -1,4 +1,3 @@
-
 grammar Types;
 
 ATOMIC_INT32: 'int32';
@@ -13,21 +12,21 @@ ATOMIC_FLOAT: 'float';
 ATOMIC_CHAR: 'char';
 
 IDENT: [a-zA-Z_][A-Za-z0-9_]*;
-FIXED_FIELDNAME: '"'IDENT'"';
+FIXED_FIELDNAME: '"' IDENT '"';
 WHITESPACE: [ \r\n\t]+ -> skip;
 
 // Rules
 start: value = type EOF;
 
 type:
-	'[' elemType = type ']'					# List
-	| name = IDENT							# TypeVar
-	| '{{' name = IDENT '}}'				# PackVar
-	| '(' types = tupleTypeList ')'			# Tuple
-	| '|' types = unionTypeList '|'			# Union
-	| '{' fields = fieldList '}'			# Struct
+	'[' elemType = type ']'							# List
+	| name = IDENT									# TypeVar
+	| '$' name = IDENT 						        # PackVar
+	| '(' types = tupleTypeList ')'					# Tuple
+	| '|' types = unionTypeList '|'					# Union
+	| '{' fields = fieldList '}'					# Struct
 	| name = IDENT '<' types = tupleTypeList '>'	# Named
-	| atom = atomic							# AtomicType;
+	| atom = atomic									# AtomicType;
 
 tupleTypeList:
 	pattern = type '...'						# TupleTypeListOnlyExpansion
@@ -42,12 +41,14 @@ unionTypeList:
 	|											# UnionTypeListEmpty;
 
 fieldList:
-	'{{' namePattern = IDENT '}}' ':' typePattern = type '...'									# FieldListOnlyExpansion
-	| (names += fieldName ':' types += type ',')+ finalName = fieldName ':' finalType = type	#FieldListNoExpansion
-	| (names += fieldName ':' types += type ',')+ '{{' namePattern = IDENT '}}' ':' typePattern = type '...' #FieldListExpansion
-	| # FieldListEmpty;
+	'$' namePattern = IDENT ':' typePattern = type '...'									            # FieldListOnlyExpansion
+	| (names += fieldName ':' types += type ',')+ finalName = fieldName ':' finalType = type	        # FieldListNoExpansion
+	| (names += fieldName ':' types += type ',')+ '$' namePattern = IDENT ':' typePattern = type '...'	# FieldListExpansion
+	|				                                                                                    # FieldListEmpty;
 
-fieldName: name=FIXED_FIELDNAME #FieldNameFixed | name=IDENT #FieldNameVariable;
+fieldName:
+	name = FIXED_FIELDNAME	# FieldNameFixed
+	| name = IDENT			# FieldNameVariable;
 
 atomic:
 	name = ATOMIC_INT32
