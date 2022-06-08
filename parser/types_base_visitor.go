@@ -16,7 +16,27 @@ func (v *BaseTypesVisitor) VisitList(ctx *ListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseTypesVisitor) VisitTypeVar(ctx *TypeVarContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitPackVar(ctx *PackVarContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseTypesVisitor) VisitTuple(ctx *TupleContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitUnion(ctx *UnionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitStruct(ctx *StructContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitNamed(ctx *NamedContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -24,19 +44,59 @@ func (v *BaseTypesVisitor) VisitAtomicType(ctx *AtomicTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTypesVisitor) VisitTypeListOnlyExpansion(ctx *TypeListOnlyExpansionContext) interface{} {
+func (v *BaseTypesVisitor) VisitTupleTypeListOnlyExpansion(ctx *TupleTypeListOnlyExpansionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTypesVisitor) VisitTypeListNoExpansion(ctx *TypeListNoExpansionContext) interface{} {
+func (v *BaseTypesVisitor) VisitTupleTypeListNoExpansion(ctx *TupleTypeListNoExpansionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTypesVisitor) VisitTypeListExpansion(ctx *TypeListExpansionContext) interface{} {
+func (v *BaseTypesVisitor) VisitTupleTypeListExpansion(ctx *TupleTypeListExpansionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTypesVisitor) VisitTypeListEmpty(ctx *TypeListEmptyContext) interface{} {
+func (v *BaseTypesVisitor) VisitTupleTypeListEmpty(ctx *TupleTypeListEmptyContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitUnionTypeListOnlyExpansion(ctx *UnionTypeListOnlyExpansionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitUnionTypeListNoExpansion(ctx *UnionTypeListNoExpansionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitUnionTypeListExpansion(ctx *UnionTypeListExpansionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitUnionTypeListEmpty(ctx *UnionTypeListEmptyContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitFieldListOnlyExpansion(ctx *FieldListOnlyExpansionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitFieldListNoExpansion(ctx *FieldListNoExpansionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitFieldListExpansion(ctx *FieldListExpansionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitFieldListEmpty(ctx *FieldListEmptyContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitFieldNameFixed(ctx *FieldNameFixedContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitFieldNameVariable(ctx *FieldNameVariableContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
