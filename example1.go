@@ -2,13 +2,28 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"strconv"
 
 	"example/gvilums/types-parser/parser"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/bleenco/bms/protobuf/bms/protobuf/pipelang"
 )
+
+type errorListener struct {
+	*antlr.DefaultErrorListener
+	errors string
+}
+
+func newErrorListener() errorListener {
+	return errorListener{DefaultErrorListener: &antlr.DefaultErrorListener{}, errors: ""}
+}
+
+func (listener *errorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
+	listener.errors += "line " + strconv.Itoa(line) + ":" + strconv.Itoa(column) + " " + msg + "\n"
+}
 
 type typesVisitor struct{}
 
@@ -219,7 +234,8 @@ func makeFieldPattern(n string, t interface{}) *pipelang.FieldList_FieldExpansio
 	if t == nil {
 		return nil
 	}
-	return &pipelang.FieldList_FieldExpansion{NamePack: n, Pattern: t.(*pipelang.PipelangType)}
+	pat := t.(pipelang.PipelangType)
+	return &pipelang.FieldList_FieldExpansion{NamePack: n, Pattern: &pat}
 }
 
 func (v *typesVisitor) VisitFieldListOnlyExpansion(ctx *parser.FieldListOnlyExpansionContext) interface{} {
@@ -324,7 +340,7 @@ func (v *typesVisitor) VisitAtomic(ctx *parser.AtomicContext) interface{} {
 
 // Public Interface
 
-func ParseType(input string) *pipelang.PipelangType {
+func ParseType(input string) (pipelang.PipelangType, error) {
 	is := antlr.NewInputStream(input)
 
 	lexer := parser.NewTypesLexer(is)
@@ -332,19 +348,27 @@ func ParseType(input string) *pipelang.PipelangType {
 
 	p := parser.NewTypesParser(stream)
 
+	listener := newErrorListener()
+
+	p.RemoveErrorListeners()
+	p.AddErrorListener(&listener)
+
 	visitor := NewTypesVisitor()
 
 	tree := p.Start()
 	result := visitor.Visit(tree)
-	if result != nil {
-		out := result.(pipelang.PipelangType)
-		return &out
+	if result != nil && listener.errors == "" {
+		return result.(pipelang.PipelangType), nil
 	} else {
-		return nil
+		return pipelang.PipelangType{}, errors.New(listener.errors)
 	}
 }
 
 func main() {
-	result := ParseType("(Variant<int32, string, ts...>, char, {{ts}}...)")
-	fmt.Println(result)
+	result, err := ParseType("{a: int32, b: string, {{c}}:(int32, {{a}})...}")
+	if err != nil {
+		panic(err)
+	} else {
+		fmt.Println(&result)
+	}
 }
