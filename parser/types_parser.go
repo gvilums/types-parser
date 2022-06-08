@@ -34,15 +34,15 @@ func typesParserInit() {
 	staticData := &typesParserStaticData
 	staticData.literalNames = []string{
 		"", "'['", "']'", "'{{'", "'}}'", "'('", "')'", "'|'", "'{'", "'}'",
-		"'<'", "'>'", "'...'", "','", "':'", "'\"'", "'int32'", "'uint32'",
-		"'int64'", "'uint64'", "'string'", "'bool'", "'bytes'", "'double'",
-		"'float'", "'char'",
+		"'<'", "'>'", "'...'", "','", "':'", "'int32'", "'uint32'", "'int64'",
+		"'uint64'", "'string'", "'bool'", "'bytes'", "'double'", "'float'",
+		"'char'",
 	}
 	staticData.symbolicNames = []string{
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ATOMIC_INT32",
+		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ATOMIC_INT32",
 		"ATOMIC_UINT32", "ATOMIC_INT64", "ATOMIC_UINT64", "ATOMIC_STRING", "ATOMIC_BOOL",
 		"ATOMIC_BYTES", "ATOMIC_DOUBLE", "ATOMIC_FLOAT", "ATOMIC_CHAR", "IDENT",
-		"WHITESPACE",
+		"FIXED_FIELDNAME", "WHITESPACE",
 	}
 	staticData.ruleNames = []string{
 		"start", "type", "tupleTypeList", "unionTypeList", "fieldList", "fieldName",
@@ -50,7 +50,7 @@ func typesParserInit() {
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 27, 153, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 27, 151, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 44, 8, 1,
@@ -62,61 +62,61 @@ func typesParserInit() {
 		1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 108, 8, 4,
 		11, 4, 12, 4, 109, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4,
 		4, 4, 121, 8, 4, 11, 4, 12, 4, 122, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4,
-		1, 4, 1, 4, 3, 4, 133, 8, 4, 1, 5, 1, 5, 1, 5, 1, 5, 3, 5, 139, 8, 5, 1,
-		6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 3, 6, 151, 8,
-		6, 1, 6, 0, 0, 7, 0, 2, 4, 6, 8, 10, 12, 0, 0, 177, 0, 14, 1, 0, 0, 0,
-		2, 43, 1, 0, 0, 0, 4, 68, 1, 0, 0, 0, 6, 93, 1, 0, 0, 0, 8, 132, 1, 0,
-		0, 0, 10, 138, 1, 0, 0, 0, 12, 150, 1, 0, 0, 0, 14, 15, 3, 2, 1, 0, 15,
-		16, 5, 0, 0, 1, 16, 1, 1, 0, 0, 0, 17, 18, 5, 1, 0, 0, 18, 19, 3, 2, 1,
-		0, 19, 20, 5, 2, 0, 0, 20, 44, 1, 0, 0, 0, 21, 44, 5, 26, 0, 0, 22, 23,
-		5, 3, 0, 0, 23, 24, 5, 26, 0, 0, 24, 44, 5, 4, 0, 0, 25, 26, 5, 5, 0, 0,
-		26, 27, 3, 4, 2, 0, 27, 28, 5, 6, 0, 0, 28, 44, 1, 0, 0, 0, 29, 30, 5,
-		7, 0, 0, 30, 31, 3, 6, 3, 0, 31, 32, 5, 7, 0, 0, 32, 44, 1, 0, 0, 0, 33,
-		34, 5, 8, 0, 0, 34, 35, 3, 8, 4, 0, 35, 36, 5, 9, 0, 0, 36, 44, 1, 0, 0,
-		0, 37, 38, 5, 26, 0, 0, 38, 39, 5, 10, 0, 0, 39, 40, 3, 4, 2, 0, 40, 41,
-		5, 11, 0, 0, 41, 44, 1, 0, 0, 0, 42, 44, 3, 12, 6, 0, 43, 17, 1, 0, 0,
-		0, 43, 21, 1, 0, 0, 0, 43, 22, 1, 0, 0, 0, 43, 25, 1, 0, 0, 0, 43, 29,
-		1, 0, 0, 0, 43, 33, 1, 0, 0, 0, 43, 37, 1, 0, 0, 0, 43, 42, 1, 0, 0, 0,
-		44, 3, 1, 0, 0, 0, 45, 46, 3, 2, 1, 0, 46, 47, 5, 12, 0, 0, 47, 69, 1,
-		0, 0, 0, 48, 49, 3, 2, 1, 0, 49, 50, 5, 13, 0, 0, 50, 52, 1, 0, 0, 0, 51,
-		48, 1, 0, 0, 0, 52, 53, 1, 0, 0, 0, 53, 51, 1, 0, 0, 0, 53, 54, 1, 0, 0,
-		0, 54, 55, 1, 0, 0, 0, 55, 56, 3, 2, 1, 0, 56, 69, 1, 0, 0, 0, 57, 58,
-		3, 2, 1, 0, 58, 59, 5, 13, 0, 0, 59, 61, 1, 0, 0, 0, 60, 57, 1, 0, 0, 0,
-		61, 62, 1, 0, 0, 0, 62, 60, 1, 0, 0, 0, 62, 63, 1, 0, 0, 0, 63, 64, 1,
-		0, 0, 0, 64, 65, 3, 2, 1, 0, 65, 66, 5, 12, 0, 0, 66, 69, 1, 0, 0, 0, 67,
-		69, 1, 0, 0, 0, 68, 45, 1, 0, 0, 0, 68, 51, 1, 0, 0, 0, 68, 60, 1, 0, 0,
-		0, 68, 67, 1, 0, 0, 0, 69, 5, 1, 0, 0, 0, 70, 71, 3, 2, 1, 0, 71, 72, 5,
-		12, 0, 0, 72, 94, 1, 0, 0, 0, 73, 74, 3, 2, 1, 0, 74, 75, 5, 7, 0, 0, 75,
-		77, 1, 0, 0, 0, 76, 73, 1, 0, 0, 0, 77, 78, 1, 0, 0, 0, 78, 76, 1, 0, 0,
-		0, 78, 79, 1, 0, 0, 0, 79, 80, 1, 0, 0, 0, 80, 81, 3, 2, 1, 0, 81, 94,
-		1, 0, 0, 0, 82, 83, 3, 2, 1, 0, 83, 84, 5, 7, 0, 0, 84, 86, 1, 0, 0, 0,
-		85, 82, 1, 0, 0, 0, 86, 87, 1, 0, 0, 0, 87, 85, 1, 0, 0, 0, 87, 88, 1,
-		0, 0, 0, 88, 89, 1, 0, 0, 0, 89, 90, 3, 2, 1, 0, 90, 91, 5, 12, 0, 0, 91,
-		94, 1, 0, 0, 0, 92, 94, 1, 0, 0, 0, 93, 70, 1, 0, 0, 0, 93, 76, 1, 0, 0,
-		0, 93, 85, 1, 0, 0, 0, 93, 92, 1, 0, 0, 0, 94, 7, 1, 0, 0, 0, 95, 96, 5,
-		3, 0, 0, 96, 97, 5, 26, 0, 0, 97, 98, 5, 4, 0, 0, 98, 99, 5, 14, 0, 0,
-		99, 100, 3, 2, 1, 0, 100, 101, 5, 12, 0, 0, 101, 133, 1, 0, 0, 0, 102,
-		103, 3, 10, 5, 0, 103, 104, 5, 14, 0, 0, 104, 105, 3, 2, 1, 0, 105, 106,
-		5, 13, 0, 0, 106, 108, 1, 0, 0, 0, 107, 102, 1, 0, 0, 0, 108, 109, 1, 0,
-		0, 0, 109, 107, 1, 0, 0, 0, 109, 110, 1, 0, 0, 0, 110, 111, 1, 0, 0, 0,
-		111, 112, 3, 10, 5, 0, 112, 113, 5, 14, 0, 0, 113, 114, 3, 2, 1, 0, 114,
-		133, 1, 0, 0, 0, 115, 116, 3, 10, 5, 0, 116, 117, 5, 14, 0, 0, 117, 118,
-		3, 2, 1, 0, 118, 119, 5, 13, 0, 0, 119, 121, 1, 0, 0, 0, 120, 115, 1, 0,
-		0, 0, 121, 122, 1, 0, 0, 0, 122, 120, 1, 0, 0, 0, 122, 123, 1, 0, 0, 0,
-		123, 124, 1, 0, 0, 0, 124, 125, 5, 3, 0, 0, 125, 126, 5, 26, 0, 0, 126,
-		127, 5, 4, 0, 0, 127, 128, 5, 14, 0, 0, 128, 129, 3, 2, 1, 0, 129, 130,
-		5, 12, 0, 0, 130, 133, 1, 0, 0, 0, 131, 133, 1, 0, 0, 0, 132, 95, 1, 0,
-		0, 0, 132, 107, 1, 0, 0, 0, 132, 120, 1, 0, 0, 0, 132, 131, 1, 0, 0, 0,
-		133, 9, 1, 0, 0, 0, 134, 135, 5, 15, 0, 0, 135, 136, 5, 26, 0, 0, 136,
-		139, 5, 15, 0, 0, 137, 139, 5, 26, 0, 0, 138, 134, 1, 0, 0, 0, 138, 137,
-		1, 0, 0, 0, 139, 11, 1, 0, 0, 0, 140, 151, 5, 16, 0, 0, 141, 151, 5, 17,
-		0, 0, 142, 151, 5, 18, 0, 0, 143, 151, 5, 19, 0, 0, 144, 151, 5, 20, 0,
-		0, 145, 151, 5, 21, 0, 0, 146, 151, 5, 22, 0, 0, 147, 151, 5, 23, 0, 0,
-		148, 151, 5, 24, 0, 0, 149, 151, 5, 25, 0, 0, 150, 140, 1, 0, 0, 0, 150,
-		141, 1, 0, 0, 0, 150, 142, 1, 0, 0, 0, 150, 143, 1, 0, 0, 0, 150, 144,
-		1, 0, 0, 0, 150, 145, 1, 0, 0, 0, 150, 146, 1, 0, 0, 0, 150, 147, 1, 0,
-		0, 0, 150, 148, 1, 0, 0, 0, 150, 149, 1, 0, 0, 0, 151, 13, 1, 0, 0, 0,
-		12, 43, 53, 62, 68, 78, 87, 93, 109, 122, 132, 138, 150,
+		1, 4, 1, 4, 3, 4, 133, 8, 4, 1, 5, 1, 5, 3, 5, 137, 8, 5, 1, 6, 1, 6, 1,
+		6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 3, 6, 149, 8, 6, 1, 6, 0,
+		0, 7, 0, 2, 4, 6, 8, 10, 12, 0, 0, 175, 0, 14, 1, 0, 0, 0, 2, 43, 1, 0,
+		0, 0, 4, 68, 1, 0, 0, 0, 6, 93, 1, 0, 0, 0, 8, 132, 1, 0, 0, 0, 10, 136,
+		1, 0, 0, 0, 12, 148, 1, 0, 0, 0, 14, 15, 3, 2, 1, 0, 15, 16, 5, 0, 0, 1,
+		16, 1, 1, 0, 0, 0, 17, 18, 5, 1, 0, 0, 18, 19, 3, 2, 1, 0, 19, 20, 5, 2,
+		0, 0, 20, 44, 1, 0, 0, 0, 21, 44, 5, 25, 0, 0, 22, 23, 5, 3, 0, 0, 23,
+		24, 5, 25, 0, 0, 24, 44, 5, 4, 0, 0, 25, 26, 5, 5, 0, 0, 26, 27, 3, 4,
+		2, 0, 27, 28, 5, 6, 0, 0, 28, 44, 1, 0, 0, 0, 29, 30, 5, 7, 0, 0, 30, 31,
+		3, 6, 3, 0, 31, 32, 5, 7, 0, 0, 32, 44, 1, 0, 0, 0, 33, 34, 5, 8, 0, 0,
+		34, 35, 3, 8, 4, 0, 35, 36, 5, 9, 0, 0, 36, 44, 1, 0, 0, 0, 37, 38, 5,
+		25, 0, 0, 38, 39, 5, 10, 0, 0, 39, 40, 3, 4, 2, 0, 40, 41, 5, 11, 0, 0,
+		41, 44, 1, 0, 0, 0, 42, 44, 3, 12, 6, 0, 43, 17, 1, 0, 0, 0, 43, 21, 1,
+		0, 0, 0, 43, 22, 1, 0, 0, 0, 43, 25, 1, 0, 0, 0, 43, 29, 1, 0, 0, 0, 43,
+		33, 1, 0, 0, 0, 43, 37, 1, 0, 0, 0, 43, 42, 1, 0, 0, 0, 44, 3, 1, 0, 0,
+		0, 45, 46, 3, 2, 1, 0, 46, 47, 5, 12, 0, 0, 47, 69, 1, 0, 0, 0, 48, 49,
+		3, 2, 1, 0, 49, 50, 5, 13, 0, 0, 50, 52, 1, 0, 0, 0, 51, 48, 1, 0, 0, 0,
+		52, 53, 1, 0, 0, 0, 53, 51, 1, 0, 0, 0, 53, 54, 1, 0, 0, 0, 54, 55, 1,
+		0, 0, 0, 55, 56, 3, 2, 1, 0, 56, 69, 1, 0, 0, 0, 57, 58, 3, 2, 1, 0, 58,
+		59, 5, 13, 0, 0, 59, 61, 1, 0, 0, 0, 60, 57, 1, 0, 0, 0, 61, 62, 1, 0,
+		0, 0, 62, 60, 1, 0, 0, 0, 62, 63, 1, 0, 0, 0, 63, 64, 1, 0, 0, 0, 64, 65,
+		3, 2, 1, 0, 65, 66, 5, 12, 0, 0, 66, 69, 1, 0, 0, 0, 67, 69, 1, 0, 0, 0,
+		68, 45, 1, 0, 0, 0, 68, 51, 1, 0, 0, 0, 68, 60, 1, 0, 0, 0, 68, 67, 1,
+		0, 0, 0, 69, 5, 1, 0, 0, 0, 70, 71, 3, 2, 1, 0, 71, 72, 5, 12, 0, 0, 72,
+		94, 1, 0, 0, 0, 73, 74, 3, 2, 1, 0, 74, 75, 5, 7, 0, 0, 75, 77, 1, 0, 0,
+		0, 76, 73, 1, 0, 0, 0, 77, 78, 1, 0, 0, 0, 78, 76, 1, 0, 0, 0, 78, 79,
+		1, 0, 0, 0, 79, 80, 1, 0, 0, 0, 80, 81, 3, 2, 1, 0, 81, 94, 1, 0, 0, 0,
+		82, 83, 3, 2, 1, 0, 83, 84, 5, 7, 0, 0, 84, 86, 1, 0, 0, 0, 85, 82, 1,
+		0, 0, 0, 86, 87, 1, 0, 0, 0, 87, 85, 1, 0, 0, 0, 87, 88, 1, 0, 0, 0, 88,
+		89, 1, 0, 0, 0, 89, 90, 3, 2, 1, 0, 90, 91, 5, 12, 0, 0, 91, 94, 1, 0,
+		0, 0, 92, 94, 1, 0, 0, 0, 93, 70, 1, 0, 0, 0, 93, 76, 1, 0, 0, 0, 93, 85,
+		1, 0, 0, 0, 93, 92, 1, 0, 0, 0, 94, 7, 1, 0, 0, 0, 95, 96, 5, 3, 0, 0,
+		96, 97, 5, 25, 0, 0, 97, 98, 5, 4, 0, 0, 98, 99, 5, 14, 0, 0, 99, 100,
+		3, 2, 1, 0, 100, 101, 5, 12, 0, 0, 101, 133, 1, 0, 0, 0, 102, 103, 3, 10,
+		5, 0, 103, 104, 5, 14, 0, 0, 104, 105, 3, 2, 1, 0, 105, 106, 5, 13, 0,
+		0, 106, 108, 1, 0, 0, 0, 107, 102, 1, 0, 0, 0, 108, 109, 1, 0, 0, 0, 109,
+		107, 1, 0, 0, 0, 109, 110, 1, 0, 0, 0, 110, 111, 1, 0, 0, 0, 111, 112,
+		3, 10, 5, 0, 112, 113, 5, 14, 0, 0, 113, 114, 3, 2, 1, 0, 114, 133, 1,
+		0, 0, 0, 115, 116, 3, 10, 5, 0, 116, 117, 5, 14, 0, 0, 117, 118, 3, 2,
+		1, 0, 118, 119, 5, 13, 0, 0, 119, 121, 1, 0, 0, 0, 120, 115, 1, 0, 0, 0,
+		121, 122, 1, 0, 0, 0, 122, 120, 1, 0, 0, 0, 122, 123, 1, 0, 0, 0, 123,
+		124, 1, 0, 0, 0, 124, 125, 5, 3, 0, 0, 125, 126, 5, 25, 0, 0, 126, 127,
+		5, 4, 0, 0, 127, 128, 5, 14, 0, 0, 128, 129, 3, 2, 1, 0, 129, 130, 5, 12,
+		0, 0, 130, 133, 1, 0, 0, 0, 131, 133, 1, 0, 0, 0, 132, 95, 1, 0, 0, 0,
+		132, 107, 1, 0, 0, 0, 132, 120, 1, 0, 0, 0, 132, 131, 1, 0, 0, 0, 133,
+		9, 1, 0, 0, 0, 134, 137, 5, 26, 0, 0, 135, 137, 5, 25, 0, 0, 136, 134,
+		1, 0, 0, 0, 136, 135, 1, 0, 0, 0, 137, 11, 1, 0, 0, 0, 138, 149, 5, 15,
+		0, 0, 139, 149, 5, 16, 0, 0, 140, 149, 5, 17, 0, 0, 141, 149, 5, 18, 0,
+		0, 142, 149, 5, 19, 0, 0, 143, 149, 5, 20, 0, 0, 144, 149, 5, 21, 0, 0,
+		145, 149, 5, 22, 0, 0, 146, 149, 5, 23, 0, 0, 147, 149, 5, 24, 0, 0, 148,
+		138, 1, 0, 0, 0, 148, 139, 1, 0, 0, 0, 148, 140, 1, 0, 0, 0, 148, 141,
+		1, 0, 0, 0, 148, 142, 1, 0, 0, 0, 148, 143, 1, 0, 0, 0, 148, 144, 1, 0,
+		0, 0, 148, 145, 1, 0, 0, 0, 148, 146, 1, 0, 0, 0, 148, 147, 1, 0, 0, 0,
+		149, 13, 1, 0, 0, 0, 12, 43, 53, 62, 68, 78, 87, 93, 109, 122, 132, 136,
+		148,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -154,34 +154,34 @@ func NewTypesParser(input antlr.TokenStream) *TypesParser {
 
 // TypesParser tokens.
 const (
-	TypesParserEOF           = antlr.TokenEOF
-	TypesParserT__0          = 1
-	TypesParserT__1          = 2
-	TypesParserT__2          = 3
-	TypesParserT__3          = 4
-	TypesParserT__4          = 5
-	TypesParserT__5          = 6
-	TypesParserT__6          = 7
-	TypesParserT__7          = 8
-	TypesParserT__8          = 9
-	TypesParserT__9          = 10
-	TypesParserT__10         = 11
-	TypesParserT__11         = 12
-	TypesParserT__12         = 13
-	TypesParserT__13         = 14
-	TypesParserT__14         = 15
-	TypesParserATOMIC_INT32  = 16
-	TypesParserATOMIC_UINT32 = 17
-	TypesParserATOMIC_INT64  = 18
-	TypesParserATOMIC_UINT64 = 19
-	TypesParserATOMIC_STRING = 20
-	TypesParserATOMIC_BOOL   = 21
-	TypesParserATOMIC_BYTES  = 22
-	TypesParserATOMIC_DOUBLE = 23
-	TypesParserATOMIC_FLOAT  = 24
-	TypesParserATOMIC_CHAR   = 25
-	TypesParserIDENT         = 26
-	TypesParserWHITESPACE    = 27
+	TypesParserEOF             = antlr.TokenEOF
+	TypesParserT__0            = 1
+	TypesParserT__1            = 2
+	TypesParserT__2            = 3
+	TypesParserT__3            = 4
+	TypesParserT__4            = 5
+	TypesParserT__5            = 6
+	TypesParserT__6            = 7
+	TypesParserT__7            = 8
+	TypesParserT__8            = 9
+	TypesParserT__9            = 10
+	TypesParserT__10           = 11
+	TypesParserT__11           = 12
+	TypesParserT__12           = 13
+	TypesParserT__13           = 14
+	TypesParserATOMIC_INT32    = 15
+	TypesParserATOMIC_UINT32   = 16
+	TypesParserATOMIC_INT64    = 17
+	TypesParserATOMIC_UINT64   = 18
+	TypesParserATOMIC_STRING   = 19
+	TypesParserATOMIC_BOOL     = 20
+	TypesParserATOMIC_BYTES    = 21
+	TypesParserATOMIC_DOUBLE   = 22
+	TypesParserATOMIC_FLOAT    = 23
+	TypesParserATOMIC_CHAR     = 24
+	TypesParserIDENT           = 25
+	TypesParserFIXED_FIELDNAME = 26
+	TypesParserWHITESPACE      = 27
 )
 
 // TypesParser rules.
@@ -2327,7 +2327,7 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
-		for ok := true; ok; ok = _la == TypesParserT__14 || _la == TypesParserIDENT {
+		for ok := true; ok; ok = _la == TypesParserIDENT || _la == TypesParserFIXED_FIELDNAME {
 			{
 				p.SetState(115)
 
@@ -2470,8 +2470,8 @@ func (s *FieldNameFixedContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *FieldNameFixedContext) IDENT() antlr.TerminalNode {
-	return s.GetToken(TypesParserIDENT, 0)
+func (s *FieldNameFixedContext) FIXED_FIELDNAME() antlr.TerminalNode {
+	return s.GetToken(TypesParserFIXED_FIELDNAME, 0)
 }
 
 func (s *FieldNameFixedContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
@@ -2544,34 +2544,26 @@ func (p *TypesParser) FieldName() (localctx IFieldNameContext) {
 		}
 	}()
 
-	p.SetState(138)
+	p.SetState(136)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
-	case TypesParserT__14:
+	case TypesParserFIXED_FIELDNAME:
 		localctx = NewFieldNameFixedContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(134)
-			p.Match(TypesParserT__14)
-		}
-		{
-			p.SetState(135)
 
-			var _m = p.Match(TypesParserIDENT)
+			var _m = p.Match(TypesParserFIXED_FIELDNAME)
 
 			localctx.(*FieldNameFixedContext).name = _m
-		}
-		{
-			p.SetState(136)
-			p.Match(TypesParserT__14)
 		}
 
 	case TypesParserIDENT:
 		localctx = NewFieldNameVariableContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(137)
+			p.SetState(135)
 
 			var _m = p.Match(TypesParserIDENT)
 
@@ -2715,14 +2707,14 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 		}
 	}()
 
-	p.SetState(150)
+	p.SetState(148)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case TypesParserATOMIC_INT32:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(140)
+			p.SetState(138)
 
 			var _m = p.Match(TypesParserATOMIC_INT32)
 
@@ -2732,7 +2724,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_UINT32:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(141)
+			p.SetState(139)
 
 			var _m = p.Match(TypesParserATOMIC_UINT32)
 
@@ -2742,7 +2734,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_INT64:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(142)
+			p.SetState(140)
 
 			var _m = p.Match(TypesParserATOMIC_INT64)
 
@@ -2752,7 +2744,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_UINT64:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(143)
+			p.SetState(141)
 
 			var _m = p.Match(TypesParserATOMIC_UINT64)
 
@@ -2762,7 +2754,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_STRING:
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(144)
+			p.SetState(142)
 
 			var _m = p.Match(TypesParserATOMIC_STRING)
 
@@ -2772,7 +2764,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_BOOL:
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(145)
+			p.SetState(143)
 
 			var _m = p.Match(TypesParserATOMIC_BOOL)
 
@@ -2782,7 +2774,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_BYTES:
 		p.EnterOuterAlt(localctx, 7)
 		{
-			p.SetState(146)
+			p.SetState(144)
 
 			var _m = p.Match(TypesParserATOMIC_BYTES)
 
@@ -2792,7 +2784,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_DOUBLE:
 		p.EnterOuterAlt(localctx, 8)
 		{
-			p.SetState(147)
+			p.SetState(145)
 
 			var _m = p.Match(TypesParserATOMIC_DOUBLE)
 
@@ -2802,7 +2794,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_FLOAT:
 		p.EnterOuterAlt(localctx, 9)
 		{
-			p.SetState(148)
+			p.SetState(146)
 
 			var _m = p.Match(TypesParserATOMIC_FLOAT)
 
@@ -2812,7 +2804,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_CHAR:
 		p.EnterOuterAlt(localctx, 10)
 		{
-			p.SetState(149)
+			p.SetState(147)
 
 			var _m = p.Match(TypesParserATOMIC_CHAR)
 

@@ -13,6 +13,7 @@ ATOMIC_FLOAT: 'float';
 ATOMIC_CHAR: 'char';
 
 IDENT: [a-zA-Z_][A-Za-z0-9_]*;
+FIXED_FIELDNAME: '"'IDENT'"';
 WHITESPACE: [ \r\n\t]+ -> skip;
 
 // Rules
@@ -46,7 +47,7 @@ fieldList:
 	| (names += fieldName ':' types += type ',')+ '{{' namePattern = IDENT '}}' ':' typePattern = type '...' #FieldListExpansion
 	| # FieldListEmpty;
 
-fieldName: '"' name=IDENT '"' #FieldNameFixed | name=IDENT #FieldNameVariable;
+fieldName: name=FIXED_FIELDNAME #FieldNameFixed | name=IDENT #FieldNameVariable;
 
 atomic:
 	name = ATOMIC_INT32

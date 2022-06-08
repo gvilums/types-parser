@@ -10,48 +10,7 @@ import (
 	"github.com/bleenco/bms/protobuf/bms/protobuf/pipelang"
 )
 
-// TODO WHITESPACE HANDLING
-
-// func parseType(input string) (pipelang.PipelangType, string, error) {
-// 	if input[0] == '(' {
-// 		tuple := parseTuple(input)
-// 		return pipelang.PipelangType{Type: &pipelang.PipelangType_Tuple{Tuple: &tuple}}, input, nil
-// 	} else {
-// 		list := parseList(input)
-// 		return pipelang.PipelangType{Type: &pipelang.PipelangType_List{List: &list}}, input, nil
-// 	}
-// }
-
-// func parseTuple(input string) (pipelang.Tuple, string, error) {
-
-// 	return pipelang.Tuple{Types: &pipelang.TypeList{}}, input, nil
-// }
-
-// func parseTypeList(input string) (pipelang.TypeList, string, error) {
-// 	return pipelang.TypeList{}, input, nil
-// }
-
-// func parseList(input string) (pipelang.List, string, error) {
-// 	if input[0] != '[' {
-// 		return pipelang.List{}, input, errors.New("expected opening '[' for list type")
-// 	}
-// 	elem_type, remainder, err := parseType(input[1:])
-// 	if err != nil {
-// 		return pipelang.List{}, input, err
-// 	}
-// 	if remainder[0] != ']' {
-// 		return pipelang.List{}, input, errors.New("expected closing ']' in list type")
-// 	}
-// 	return pipelang.List{ElemType: &elem_type}, remainder[1:], nil
-// }
-
-// func parseAtomic(input string) (pipelang.List, string, error) {
-
-// }
-
-type typesVisitor struct {
-	// *antlr.BaseParseTreeVisitor
-}
+type typesVisitor struct{}
 
 func NewTypesVisitor() parser.TypesVisitor {
 	return &typesVisitor{}
@@ -134,7 +93,11 @@ func (v *typesVisitor) VisitAtomicType(ctx *parser.AtomicTypeContext) interface{
 // TYPE LIST
 
 func (v *typesVisitor) VisitTupleTypeListOnlyExpansion(ctx *parser.TupleTypeListOnlyExpansionContext) interface{} {
-	pattern := ctx.GetPattern().Accept(v).(pipelang.PipelangType)
+	out := ctx.GetPattern().Accept(v)
+	if out == nil {
+		return nil
+	}
+	pattern := out.(pipelang.PipelangType)
 	return pipelang.TypeList{Fixed: make([]*pipelang.PipelangType, 0), Expansion: &pattern}
 }
 
@@ -142,11 +105,19 @@ func (v *typesVisitor) VisitTupleTypeListNoExpansion(ctx *parser.TupleTypeListNo
 	types := ctx.GetTypes()
 	fixed := make([]*pipelang.PipelangType, len(types)+1)
 	for i, t := range types {
-		out := t.Accept(v).(pipelang.PipelangType)
-		fixed[i] = &out
+		out := t.Accept(v)
+		if out == nil {
+			return nil
+		}
+		tp := out.(pipelang.PipelangType)
+		fixed[i] = &tp
 	}
-	out := ctx.GetFinalType().Accept(v).(pipelang.PipelangType)
-	fixed[len(fixed)-1] = &out
+	out := ctx.GetFinalType().Accept(v)
+	if out == nil {
+		return nil
+	}
+	tp := out.(pipelang.PipelangType)
+	fixed[len(fixed)-1] = &tp
 	return pipelang.TypeList{Fixed: fixed, Expansion: nil}
 }
 
@@ -154,10 +125,18 @@ func (v *typesVisitor) VisitTupleTypeListExpansion(ctx *parser.TupleTypeListExpa
 	types := ctx.GetTypes()
 	fixed := make([]*pipelang.PipelangType, len(types))
 	for i, t := range types {
-		out := t.Accept(v).(pipelang.PipelangType)
-		fixed[i] = &out
+		out := t.Accept(v)
+		if out == nil {
+			return nil
+		}
+		tp := out.(pipelang.PipelangType)
+		fixed[i] = &tp
 	}
-	pattern := ctx.GetPattern().Accept(v).(pipelang.PipelangType)
+	out := ctx.GetPattern().Accept(v)
+	if out == nil {
+		return nil
+	}
+	pattern := out.(pipelang.PipelangType)
 	return pipelang.TypeList{Fixed: fixed, Expansion: &pattern}
 }
 
@@ -168,7 +147,11 @@ func (v *typesVisitor) VisitTupleTypeListEmpty(ctx *parser.TupleTypeListEmptyCon
 // TYPE LIST
 
 func (v *typesVisitor) VisitUnionTypeListOnlyExpansion(ctx *parser.UnionTypeListOnlyExpansionContext) interface{} {
-	pattern := ctx.GetPattern().Accept(v).(pipelang.PipelangType)
+	out := ctx.GetPattern().Accept(v)
+	if out == nil {
+		return nil
+	}
+	pattern := out.(pipelang.PipelangType)
 	return pipelang.TypeList{Fixed: make([]*pipelang.PipelangType, 0), Expansion: &pattern}
 }
 
@@ -176,11 +159,19 @@ func (v *typesVisitor) VisitUnionTypeListNoExpansion(ctx *parser.UnionTypeListNo
 	types := ctx.GetTypes()
 	fixed := make([]*pipelang.PipelangType, len(types)+1)
 	for i, t := range types {
-		out := t.Accept(v).(pipelang.PipelangType)
-		fixed[i] = &out
+		out := t.Accept(v)
+		if out == nil {
+			return nil
+		}
+		tp := out.(pipelang.PipelangType)
+		fixed[i] = &tp
 	}
-	out := ctx.GetFinalType().Accept(v).(pipelang.PipelangType)
-	fixed[len(fixed)-1] = &out
+	out := ctx.GetFinalType().Accept(v)
+	if out == nil {
+		return nil
+	}
+	tp := out.(pipelang.PipelangType)
+	fixed[len(fixed)-1] = &tp
 	return pipelang.TypeList{Fixed: fixed, Expansion: nil}
 }
 
@@ -188,10 +179,18 @@ func (v *typesVisitor) VisitUnionTypeListExpansion(ctx *parser.UnionTypeListExpa
 	types := ctx.GetTypes()
 	fixed := make([]*pipelang.PipelangType, len(types))
 	for i, t := range types {
-		out := t.Accept(v).(pipelang.PipelangType)
-		fixed[i] = &out
+		out := t.Accept(v)
+		if out == nil {
+			return nil
+		}
+		tp := out.(pipelang.PipelangType)
+		fixed[i] = &tp
 	}
-	pattern := ctx.GetPattern().Accept(v).(pipelang.PipelangType)
+	out := ctx.GetPattern().Accept(v)
+	if out == nil {
+		return nil
+	}
+	pattern := out.(pipelang.PipelangType)
 	return pipelang.TypeList{Fixed: fixed, Expansion: &pattern}
 }
 
@@ -202,6 +201,9 @@ func (v *typesVisitor) VisitUnionTypeListEmpty(ctx *parser.UnionTypeListEmptyCon
 // FIELD LIST
 
 func makeField(n interface{}, t interface{}) *pipelang.FieldList_Field {
+	if n == nil || t == nil {
+		return nil
+	}
 	tp := t.(pipelang.PipelangType)
 	switch np := n.(type) {
 	case pipelang.FieldList_Field_Fixed:
@@ -214,13 +216,20 @@ func makeField(n interface{}, t interface{}) *pipelang.FieldList_Field {
 }
 
 func makeFieldPattern(n string, t interface{}) *pipelang.FieldList_FieldExpansion {
+	if t == nil {
+		return nil
+	}
 	return &pipelang.FieldList_FieldExpansion{NamePack: n, Pattern: t.(*pipelang.PipelangType)}
 }
 
 func (v *typesVisitor) VisitFieldListOnlyExpansion(ctx *parser.FieldListOnlyExpansionContext) interface{} {
 	name_pattern := ctx.GetNamePattern().GetText()
 	type_pattern := ctx.GetTypePattern().Accept(v)
-	return pipelang.FieldList{Fixed: make([]*pipelang.FieldList_Field, 0), Expansion: makeFieldPattern(name_pattern, type_pattern)}
+	exp := makeFieldPattern(name_pattern, type_pattern)
+	if exp == nil {
+		return nil
+	}
+	return pipelang.FieldList{Fixed: make([]*pipelang.FieldList_Field, 0), Expansion: exp}
 }
 
 func (v *typesVisitor) VisitFieldListNoExpansion(ctx *parser.FieldListNoExpansionContext) interface{} {
@@ -233,9 +242,17 @@ func (v *typesVisitor) VisitFieldListNoExpansion(ctx *parser.FieldListNoExpansio
 	for i := range types {
 		name := names[i].Accept(v)
 		out := types[i].Accept(v)
-		fixed[i] = makeField(name, out)
+		f := makeField(name, out)
+		if f == nil {
+			return f
+		}
+		fixed[i] = f
 	}
-	fixed[len(fixed)-1] = makeField(ctx.GetFinalName().Accept(v), ctx.GetFinalType().Accept(v))
+	f := makeField(ctx.GetFinalName().Accept(v), ctx.GetFinalType().Accept(v))
+	if f == nil {
+		return nil
+	}
+	fixed[len(fixed)-1] = f
 	return pipelang.FieldList{Fixed: fixed, Expansion: nil}
 }
 
@@ -249,9 +266,16 @@ func (v *typesVisitor) VisitFieldListExpansion(ctx *parser.FieldListExpansionCon
 	for i := range types {
 		name := names[i].Accept(v)
 		out := types[i].Accept(v)
-		fixed[i] = makeField(name, out)
+		f := makeField(name, out)
+		if f == nil {
+			return nil
+		}
+		fixed[i] = f
 	}
 	exp := makeFieldPattern(ctx.GetNamePattern().GetText(), ctx.GetTypePattern().Accept(v))
+	if exp == nil {
+		return nil
+	}
 	return pipelang.FieldList{Fixed: fixed, Expansion: exp}
 }
 
@@ -321,6 +345,6 @@ func ParseType(input string) *pipelang.PipelangType {
 }
 
 func main() {
-	result := ParseType("Variant<int32, string, ts...>")
+	result := ParseType("(Variant<int32, string, ts...>, char, {{ts}}...)")
 	fmt.Println(result)
 }
