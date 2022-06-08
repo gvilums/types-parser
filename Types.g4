@@ -15,19 +15,24 @@ IDENT: [a-zA-Z_][A-Za-z0-9_]*;
 FIXED_FIELDNAME: '"' IDENT '"';
 WHITESPACE: [ \r\n\t]+ -> skip;
 
-// Rules
+// root rule
 start: value = type EOF;
 
 type:
+    t = nonUnionType                             # TypeNonUnion
+	| types = unionTypeList				         # TypeUnion;
+
+nonUnionType:
 	'[' elemType = type ']'							# List
 	| name = IDENT									# TypeVar
 	| '$' name = IDENT 						        # PackVar
 	| '(' types = tupleTypeList ')'					# Tuple
-	| '|' types = unionTypeList '|'					# Union
 	| '{' fields = fieldList '}'					# Struct
 	| name = IDENT '<' types = tupleTypeList '>'	# Named
 	| atom = atomic									# AtomicType;
 
+
+// tuple type lists (also used in named) and union type lists require different rules because they use different separators
 tupleTypeList:
 	pattern = type '...'						# TupleTypeListOnlyExpansion
 	| (types += type ',')+ finalType = type		# TupleTypeListNoExpansion
@@ -35,9 +40,9 @@ tupleTypeList:
 	|											# TupleTypeListEmpty;
 
 unionTypeList:
-	pattern = type '...'						# UnionTypeListOnlyExpansion
-	| (types += type '|')+ finalType = type		# UnionTypeListNoExpansion
-	| (types += type '|')+ pattern = type '...'	# UnionTypeListExpansion
+	pattern = nonUnionType '...'						# UnionTypeListOnlyExpansion
+	| (types += nonUnionType '|')+ finalType = nonUnionType		# UnionTypeListNoExpansion
+	| (types += nonUnionType '|')+ pattern = nonUnionType '...'	# UnionTypeListExpansion
 	|											# UnionTypeListEmpty;
 
 fieldList:

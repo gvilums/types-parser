@@ -33,9 +33,9 @@ var typesParserStaticData struct {
 func typesParserInit() {
 	staticData := &typesParserStaticData
 	staticData.literalNames = []string{
-		"", "'['", "']'", "'$'", "'('", "')'", "'|'", "'{'", "'}'", "'<'", "'>'",
-		"'...'", "','", "':'", "'int32'", "'uint32'", "'int64'", "'uint64'",
-		"'string'", "'bool'", "'bytes'", "'double'", "'float'", "'char'",
+		"", "'['", "']'", "'$'", "'('", "')'", "'{'", "'}'", "'<'", "'>'", "'...'",
+		"','", "'|'", "':'", "'int32'", "'uint32'", "'int64'", "'uint64'", "'string'",
+		"'bool'", "'bytes'", "'double'", "'float'", "'char'",
 	}
 	staticData.symbolicNames = []string{
 		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "ATOMIC_INT32",
@@ -44,76 +44,77 @@ func typesParserInit() {
 		"FIXED_FIELDNAME", "WHITESPACE",
 	}
 	staticData.ruleNames = []string{
-		"start", "type", "tupleTypeList", "unionTypeList", "fieldList", "fieldName",
-		"atomic",
+		"start", "type", "nonUnionType", "tupleTypeList", "unionTypeList", "fieldList",
+		"fieldName", "atomic",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 26, 148, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
-		4, 2, 5, 7, 5, 2, 6, 7, 6, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 43, 8, 1, 1, 2,
-		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 2, 51, 8, 2, 11, 2, 12, 2, 52, 1, 2, 1,
-		2, 1, 2, 1, 2, 1, 2, 4, 2, 60, 8, 2, 11, 2, 12, 2, 61, 1, 2, 1, 2, 1, 2,
-		1, 2, 3, 2, 68, 8, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 3, 76, 8,
-		3, 11, 3, 12, 3, 77, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 3, 85, 8, 3, 11,
-		3, 12, 3, 86, 1, 3, 1, 3, 1, 3, 1, 3, 3, 3, 93, 8, 3, 1, 4, 1, 4, 1, 4,
-		1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 106, 8, 4, 11, 4,
-		12, 4, 107, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4,
-		119, 8, 4, 11, 4, 12, 4, 120, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4,
-		3, 4, 130, 8, 4, 1, 5, 1, 5, 3, 5, 134, 8, 5, 1, 6, 1, 6, 1, 6, 1, 6, 1,
-		6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 3, 6, 146, 8, 6, 1, 6, 0, 0, 7, 0, 2,
-		4, 6, 8, 10, 12, 0, 0, 172, 0, 14, 1, 0, 0, 0, 2, 42, 1, 0, 0, 0, 4, 67,
-		1, 0, 0, 0, 6, 92, 1, 0, 0, 0, 8, 129, 1, 0, 0, 0, 10, 133, 1, 0, 0, 0,
-		12, 145, 1, 0, 0, 0, 14, 15, 3, 2, 1, 0, 15, 16, 5, 0, 0, 1, 16, 1, 1,
-		0, 0, 0, 17, 18, 5, 1, 0, 0, 18, 19, 3, 2, 1, 0, 19, 20, 5, 2, 0, 0, 20,
-		43, 1, 0, 0, 0, 21, 43, 5, 24, 0, 0, 22, 23, 5, 3, 0, 0, 23, 43, 5, 24,
-		0, 0, 24, 25, 5, 4, 0, 0, 25, 26, 3, 4, 2, 0, 26, 27, 5, 5, 0, 0, 27, 43,
-		1, 0, 0, 0, 28, 29, 5, 6, 0, 0, 29, 30, 3, 6, 3, 0, 30, 31, 5, 6, 0, 0,
-		31, 43, 1, 0, 0, 0, 32, 33, 5, 7, 0, 0, 33, 34, 3, 8, 4, 0, 34, 35, 5,
-		8, 0, 0, 35, 43, 1, 0, 0, 0, 36, 37, 5, 24, 0, 0, 37, 38, 5, 9, 0, 0, 38,
-		39, 3, 4, 2, 0, 39, 40, 5, 10, 0, 0, 40, 43, 1, 0, 0, 0, 41, 43, 3, 12,
-		6, 0, 42, 17, 1, 0, 0, 0, 42, 21, 1, 0, 0, 0, 42, 22, 1, 0, 0, 0, 42, 24,
-		1, 0, 0, 0, 42, 28, 1, 0, 0, 0, 42, 32, 1, 0, 0, 0, 42, 36, 1, 0, 0, 0,
-		42, 41, 1, 0, 0, 0, 43, 3, 1, 0, 0, 0, 44, 45, 3, 2, 1, 0, 45, 46, 5, 11,
-		0, 0, 46, 68, 1, 0, 0, 0, 47, 48, 3, 2, 1, 0, 48, 49, 5, 12, 0, 0, 49,
-		51, 1, 0, 0, 0, 50, 47, 1, 0, 0, 0, 51, 52, 1, 0, 0, 0, 52, 50, 1, 0, 0,
-		0, 52, 53, 1, 0, 0, 0, 53, 54, 1, 0, 0, 0, 54, 55, 3, 2, 1, 0, 55, 68,
-		1, 0, 0, 0, 56, 57, 3, 2, 1, 0, 57, 58, 5, 12, 0, 0, 58, 60, 1, 0, 0, 0,
-		59, 56, 1, 0, 0, 0, 60, 61, 1, 0, 0, 0, 61, 59, 1, 0, 0, 0, 61, 62, 1,
-		0, 0, 0, 62, 63, 1, 0, 0, 0, 63, 64, 3, 2, 1, 0, 64, 65, 5, 11, 0, 0, 65,
-		68, 1, 0, 0, 0, 66, 68, 1, 0, 0, 0, 67, 44, 1, 0, 0, 0, 67, 50, 1, 0, 0,
-		0, 67, 59, 1, 0, 0, 0, 67, 66, 1, 0, 0, 0, 68, 5, 1, 0, 0, 0, 69, 70, 3,
-		2, 1, 0, 70, 71, 5, 11, 0, 0, 71, 93, 1, 0, 0, 0, 72, 73, 3, 2, 1, 0, 73,
-		74, 5, 6, 0, 0, 74, 76, 1, 0, 0, 0, 75, 72, 1, 0, 0, 0, 76, 77, 1, 0, 0,
-		0, 77, 75, 1, 0, 0, 0, 77, 78, 1, 0, 0, 0, 78, 79, 1, 0, 0, 0, 79, 80,
-		3, 2, 1, 0, 80, 93, 1, 0, 0, 0, 81, 82, 3, 2, 1, 0, 82, 83, 5, 6, 0, 0,
-		83, 85, 1, 0, 0, 0, 84, 81, 1, 0, 0, 0, 85, 86, 1, 0, 0, 0, 86, 84, 1,
-		0, 0, 0, 86, 87, 1, 0, 0, 0, 87, 88, 1, 0, 0, 0, 88, 89, 3, 2, 1, 0, 89,
-		90, 5, 11, 0, 0, 90, 93, 1, 0, 0, 0, 91, 93, 1, 0, 0, 0, 92, 69, 1, 0,
-		0, 0, 92, 75, 1, 0, 0, 0, 92, 84, 1, 0, 0, 0, 92, 91, 1, 0, 0, 0, 93, 7,
-		1, 0, 0, 0, 94, 95, 5, 3, 0, 0, 95, 96, 5, 24, 0, 0, 96, 97, 5, 13, 0,
-		0, 97, 98, 3, 2, 1, 0, 98, 99, 5, 11, 0, 0, 99, 130, 1, 0, 0, 0, 100, 101,
-		3, 10, 5, 0, 101, 102, 5, 13, 0, 0, 102, 103, 3, 2, 1, 0, 103, 104, 5,
-		12, 0, 0, 104, 106, 1, 0, 0, 0, 105, 100, 1, 0, 0, 0, 106, 107, 1, 0, 0,
-		0, 107, 105, 1, 0, 0, 0, 107, 108, 1, 0, 0, 0, 108, 109, 1, 0, 0, 0, 109,
-		110, 3, 10, 5, 0, 110, 111, 5, 13, 0, 0, 111, 112, 3, 2, 1, 0, 112, 130,
-		1, 0, 0, 0, 113, 114, 3, 10, 5, 0, 114, 115, 5, 13, 0, 0, 115, 116, 3,
-		2, 1, 0, 116, 117, 5, 12, 0, 0, 117, 119, 1, 0, 0, 0, 118, 113, 1, 0, 0,
-		0, 119, 120, 1, 0, 0, 0, 120, 118, 1, 0, 0, 0, 120, 121, 1, 0, 0, 0, 121,
-		122, 1, 0, 0, 0, 122, 123, 5, 3, 0, 0, 123, 124, 5, 24, 0, 0, 124, 125,
-		5, 13, 0, 0, 125, 126, 3, 2, 1, 0, 126, 127, 5, 11, 0, 0, 127, 130, 1,
-		0, 0, 0, 128, 130, 1, 0, 0, 0, 129, 94, 1, 0, 0, 0, 129, 105, 1, 0, 0,
-		0, 129, 118, 1, 0, 0, 0, 129, 128, 1, 0, 0, 0, 130, 9, 1, 0, 0, 0, 131,
-		134, 5, 25, 0, 0, 132, 134, 5, 24, 0, 0, 133, 131, 1, 0, 0, 0, 133, 132,
-		1, 0, 0, 0, 134, 11, 1, 0, 0, 0, 135, 146, 5, 14, 0, 0, 136, 146, 5, 15,
-		0, 0, 137, 146, 5, 16, 0, 0, 138, 146, 5, 17, 0, 0, 139, 146, 5, 18, 0,
-		0, 140, 146, 5, 19, 0, 0, 141, 146, 5, 20, 0, 0, 142, 146, 5, 21, 0, 0,
-		143, 146, 5, 22, 0, 0, 144, 146, 5, 23, 0, 0, 145, 135, 1, 0, 0, 0, 145,
-		136, 1, 0, 0, 0, 145, 137, 1, 0, 0, 0, 145, 138, 1, 0, 0, 0, 145, 139,
-		1, 0, 0, 0, 145, 140, 1, 0, 0, 0, 145, 141, 1, 0, 0, 0, 145, 142, 1, 0,
-		0, 0, 145, 143, 1, 0, 0, 0, 145, 144, 1, 0, 0, 0, 146, 13, 1, 0, 0, 0,
-		12, 42, 52, 61, 67, 77, 86, 92, 107, 120, 129, 133, 145,
+		4, 1, 26, 150, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 3,
+		1, 22, 8, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2,
+		45, 8, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 3, 53, 8, 3, 11, 3, 12,
+		3, 54, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 3, 62, 8, 3, 11, 3, 12, 3, 63,
+		1, 3, 1, 3, 1, 3, 1, 3, 3, 3, 70, 8, 3, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
+		4, 4, 4, 78, 8, 4, 11, 4, 12, 4, 79, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4,
+		87, 8, 4, 11, 4, 12, 4, 88, 1, 4, 1, 4, 1, 4, 1, 4, 3, 4, 95, 8, 4, 1,
+		5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 4, 5, 108,
+		8, 5, 11, 5, 12, 5, 109, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5,
+		1, 5, 4, 5, 121, 8, 5, 11, 5, 12, 5, 122, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5,
+		1, 5, 1, 5, 3, 5, 132, 8, 5, 1, 6, 1, 6, 3, 6, 136, 8, 6, 1, 7, 1, 7, 1,
+		7, 1, 7, 1, 7, 1, 7, 1, 7, 1, 7, 1, 7, 1, 7, 3, 7, 148, 8, 7, 1, 7, 0,
+		0, 8, 0, 2, 4, 6, 8, 10, 12, 14, 0, 0, 173, 0, 16, 1, 0, 0, 0, 2, 21, 1,
+		0, 0, 0, 4, 44, 1, 0, 0, 0, 6, 69, 1, 0, 0, 0, 8, 94, 1, 0, 0, 0, 10, 131,
+		1, 0, 0, 0, 12, 135, 1, 0, 0, 0, 14, 147, 1, 0, 0, 0, 16, 17, 3, 2, 1,
+		0, 17, 18, 5, 0, 0, 1, 18, 1, 1, 0, 0, 0, 19, 22, 3, 4, 2, 0, 20, 22, 3,
+		8, 4, 0, 21, 19, 1, 0, 0, 0, 21, 20, 1, 0, 0, 0, 22, 3, 1, 0, 0, 0, 23,
+		24, 5, 1, 0, 0, 24, 25, 3, 2, 1, 0, 25, 26, 5, 2, 0, 0, 26, 45, 1, 0, 0,
+		0, 27, 45, 5, 24, 0, 0, 28, 29, 5, 3, 0, 0, 29, 45, 5, 24, 0, 0, 30, 31,
+		5, 4, 0, 0, 31, 32, 3, 6, 3, 0, 32, 33, 5, 5, 0, 0, 33, 45, 1, 0, 0, 0,
+		34, 35, 5, 6, 0, 0, 35, 36, 3, 10, 5, 0, 36, 37, 5, 7, 0, 0, 37, 45, 1,
+		0, 0, 0, 38, 39, 5, 24, 0, 0, 39, 40, 5, 8, 0, 0, 40, 41, 3, 6, 3, 0, 41,
+		42, 5, 9, 0, 0, 42, 45, 1, 0, 0, 0, 43, 45, 3, 14, 7, 0, 44, 23, 1, 0,
+		0, 0, 44, 27, 1, 0, 0, 0, 44, 28, 1, 0, 0, 0, 44, 30, 1, 0, 0, 0, 44, 34,
+		1, 0, 0, 0, 44, 38, 1, 0, 0, 0, 44, 43, 1, 0, 0, 0, 45, 5, 1, 0, 0, 0,
+		46, 47, 3, 2, 1, 0, 47, 48, 5, 10, 0, 0, 48, 70, 1, 0, 0, 0, 49, 50, 3,
+		2, 1, 0, 50, 51, 5, 11, 0, 0, 51, 53, 1, 0, 0, 0, 52, 49, 1, 0, 0, 0, 53,
+		54, 1, 0, 0, 0, 54, 52, 1, 0, 0, 0, 54, 55, 1, 0, 0, 0, 55, 56, 1, 0, 0,
+		0, 56, 57, 3, 2, 1, 0, 57, 70, 1, 0, 0, 0, 58, 59, 3, 2, 1, 0, 59, 60,
+		5, 11, 0, 0, 60, 62, 1, 0, 0, 0, 61, 58, 1, 0, 0, 0, 62, 63, 1, 0, 0, 0,
+		63, 61, 1, 0, 0, 0, 63, 64, 1, 0, 0, 0, 64, 65, 1, 0, 0, 0, 65, 66, 3,
+		2, 1, 0, 66, 67, 5, 10, 0, 0, 67, 70, 1, 0, 0, 0, 68, 70, 1, 0, 0, 0, 69,
+		46, 1, 0, 0, 0, 69, 52, 1, 0, 0, 0, 69, 61, 1, 0, 0, 0, 69, 68, 1, 0, 0,
+		0, 70, 7, 1, 0, 0, 0, 71, 72, 3, 4, 2, 0, 72, 73, 5, 10, 0, 0, 73, 95,
+		1, 0, 0, 0, 74, 75, 3, 4, 2, 0, 75, 76, 5, 12, 0, 0, 76, 78, 1, 0, 0, 0,
+		77, 74, 1, 0, 0, 0, 78, 79, 1, 0, 0, 0, 79, 77, 1, 0, 0, 0, 79, 80, 1,
+		0, 0, 0, 80, 81, 1, 0, 0, 0, 81, 82, 3, 4, 2, 0, 82, 95, 1, 0, 0, 0, 83,
+		84, 3, 4, 2, 0, 84, 85, 5, 12, 0, 0, 85, 87, 1, 0, 0, 0, 86, 83, 1, 0,
+		0, 0, 87, 88, 1, 0, 0, 0, 88, 86, 1, 0, 0, 0, 88, 89, 1, 0, 0, 0, 89, 90,
+		1, 0, 0, 0, 90, 91, 3, 4, 2, 0, 91, 92, 5, 10, 0, 0, 92, 95, 1, 0, 0, 0,
+		93, 95, 1, 0, 0, 0, 94, 71, 1, 0, 0, 0, 94, 77, 1, 0, 0, 0, 94, 86, 1,
+		0, 0, 0, 94, 93, 1, 0, 0, 0, 95, 9, 1, 0, 0, 0, 96, 97, 5, 3, 0, 0, 97,
+		98, 5, 24, 0, 0, 98, 99, 5, 13, 0, 0, 99, 100, 3, 2, 1, 0, 100, 101, 5,
+		10, 0, 0, 101, 132, 1, 0, 0, 0, 102, 103, 3, 12, 6, 0, 103, 104, 5, 13,
+		0, 0, 104, 105, 3, 2, 1, 0, 105, 106, 5, 11, 0, 0, 106, 108, 1, 0, 0, 0,
+		107, 102, 1, 0, 0, 0, 108, 109, 1, 0, 0, 0, 109, 107, 1, 0, 0, 0, 109,
+		110, 1, 0, 0, 0, 110, 111, 1, 0, 0, 0, 111, 112, 3, 12, 6, 0, 112, 113,
+		5, 13, 0, 0, 113, 114, 3, 2, 1, 0, 114, 132, 1, 0, 0, 0, 115, 116, 3, 12,
+		6, 0, 116, 117, 5, 13, 0, 0, 117, 118, 3, 2, 1, 0, 118, 119, 5, 11, 0,
+		0, 119, 121, 1, 0, 0, 0, 120, 115, 1, 0, 0, 0, 121, 122, 1, 0, 0, 0, 122,
+		120, 1, 0, 0, 0, 122, 123, 1, 0, 0, 0, 123, 124, 1, 0, 0, 0, 124, 125,
+		5, 3, 0, 0, 125, 126, 5, 24, 0, 0, 126, 127, 5, 13, 0, 0, 127, 128, 3,
+		2, 1, 0, 128, 129, 5, 10, 0, 0, 129, 132, 1, 0, 0, 0, 130, 132, 1, 0, 0,
+		0, 131, 96, 1, 0, 0, 0, 131, 107, 1, 0, 0, 0, 131, 120, 1, 0, 0, 0, 131,
+		130, 1, 0, 0, 0, 132, 11, 1, 0, 0, 0, 133, 136, 5, 25, 0, 0, 134, 136,
+		5, 24, 0, 0, 135, 133, 1, 0, 0, 0, 135, 134, 1, 0, 0, 0, 136, 13, 1, 0,
+		0, 0, 137, 148, 5, 14, 0, 0, 138, 148, 5, 15, 0, 0, 139, 148, 5, 16, 0,
+		0, 140, 148, 5, 17, 0, 0, 141, 148, 5, 18, 0, 0, 142, 148, 5, 19, 0, 0,
+		143, 148, 5, 20, 0, 0, 144, 148, 5, 21, 0, 0, 145, 148, 5, 22, 0, 0, 146,
+		148, 5, 23, 0, 0, 147, 137, 1, 0, 0, 0, 147, 138, 1, 0, 0, 0, 147, 139,
+		1, 0, 0, 0, 147, 140, 1, 0, 0, 0, 147, 141, 1, 0, 0, 0, 147, 142, 1, 0,
+		0, 0, 147, 143, 1, 0, 0, 0, 147, 144, 1, 0, 0, 0, 147, 145, 1, 0, 0, 0,
+		147, 146, 1, 0, 0, 0, 148, 15, 1, 0, 0, 0, 13, 21, 44, 54, 63, 69, 79,
+		88, 94, 109, 122, 131, 135, 147,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -184,11 +185,12 @@ const (
 const (
 	TypesParserRULE_start         = 0
 	TypesParserRULE_type          = 1
-	TypesParserRULE_tupleTypeList = 2
-	TypesParserRULE_unionTypeList = 3
-	TypesParserRULE_fieldList     = 4
-	TypesParserRULE_fieldName     = 5
-	TypesParserRULE_atomic        = 6
+	TypesParserRULE_nonUnionType  = 2
+	TypesParserRULE_tupleTypeList = 3
+	TypesParserRULE_unionTypeList = 4
+	TypesParserRULE_fieldList     = 5
+	TypesParserRULE_fieldName     = 6
+	TypesParserRULE_atomic        = 7
 )
 
 // IStartContext is an interface to support dynamic dispatch.
@@ -303,14 +305,14 @@ func (p *TypesParser) Start() (localctx IStartContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(14)
+		p.SetState(16)
 
 		var _x = p.Type()
 
 		localctx.(*StartContext).value = _x
 	}
 	{
-		p.SetState(15)
+		p.SetState(17)
 		p.Match(TypesParserEOF)
 	}
 
@@ -367,8 +369,209 @@ func (s *TypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) s
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-type NamedContext struct {
+type TypeUnionContext struct {
 	*TypeContext
+	types IUnionTypeListContext
+}
+
+func NewTypeUnionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *TypeUnionContext {
+	var p = new(TypeUnionContext)
+
+	p.TypeContext = NewEmptyTypeContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*TypeContext))
+
+	return p
+}
+
+func (s *TypeUnionContext) GetTypes() IUnionTypeListContext { return s.types }
+
+func (s *TypeUnionContext) SetTypes(v IUnionTypeListContext) { s.types = v }
+
+func (s *TypeUnionContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *TypeUnionContext) UnionTypeList() IUnionTypeListContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IUnionTypeListContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IUnionTypeListContext)
+}
+
+func (s *TypeUnionContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case TypesVisitor:
+		return t.VisitTypeUnion(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+type TypeNonUnionContext struct {
+	*TypeContext
+	t INonUnionTypeContext
+}
+
+func NewTypeNonUnionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *TypeNonUnionContext {
+	var p = new(TypeNonUnionContext)
+
+	p.TypeContext = NewEmptyTypeContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*TypeContext))
+
+	return p
+}
+
+func (s *TypeNonUnionContext) GetT() INonUnionTypeContext { return s.t }
+
+func (s *TypeNonUnionContext) SetT(v INonUnionTypeContext) { s.t = v }
+
+func (s *TypeNonUnionContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *TypeNonUnionContext) NonUnionType() INonUnionTypeContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(INonUnionTypeContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(INonUnionTypeContext)
+}
+
+func (s *TypeNonUnionContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case TypesVisitor:
+		return t.VisitTypeNonUnion(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *TypesParser) Type() (localctx ITypeContext) {
+	this := p
+	_ = this
+
+	localctx = NewTypeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 2, TypesParserRULE_type)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.SetState(21)
+	p.GetErrorHandler().Sync(p)
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 0, p.GetParserRuleContext()) {
+	case 1:
+		localctx = NewTypeNonUnionContext(p, localctx)
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(19)
+
+			var _x = p.NonUnionType()
+
+			localctx.(*TypeNonUnionContext).t = _x
+		}
+
+	case 2:
+		localctx = NewTypeUnionContext(p, localctx)
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(20)
+
+			var _x = p.UnionTypeList()
+
+			localctx.(*TypeUnionContext).types = _x
+		}
+
+	}
+
+	return localctx
+}
+
+// INonUnionTypeContext is an interface to support dynamic dispatch.
+type INonUnionTypeContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsNonUnionTypeContext differentiates from other interfaces.
+	IsNonUnionTypeContext()
+}
+
+type NonUnionTypeContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyNonUnionTypeContext() *NonUnionTypeContext {
+	var p = new(NonUnionTypeContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = TypesParserRULE_nonUnionType
+	return p
+}
+
+func (*NonUnionTypeContext) IsNonUnionTypeContext() {}
+
+func NewNonUnionTypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *NonUnionTypeContext {
+	var p = new(NonUnionTypeContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = TypesParserRULE_nonUnionType
+
+	return p
+}
+
+func (s *NonUnionTypeContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *NonUnionTypeContext) CopyFrom(ctx *NonUnionTypeContext) {
+	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+}
+
+func (s *NonUnionTypeContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *NonUnionTypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+type NamedContext struct {
+	*NonUnionTypeContext
 	name  antlr.Token
 	types ITupleTypeListContext
 }
@@ -376,9 +579,9 @@ type NamedContext struct {
 func NewNamedContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *NamedContext {
 	var p = new(NamedContext)
 
-	p.TypeContext = NewEmptyTypeContext()
+	p.NonUnionTypeContext = NewEmptyNonUnionTypeContext()
 	p.parser = parser
-	p.CopyFrom(ctx.(*TypeContext))
+	p.CopyFrom(ctx.(*NonUnionTypeContext))
 
 	return p
 }
@@ -426,16 +629,16 @@ func (s *NamedContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 type TypeVarContext struct {
-	*TypeContext
+	*NonUnionTypeContext
 	name antlr.Token
 }
 
 func NewTypeVarContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *TypeVarContext {
 	var p = new(TypeVarContext)
 
-	p.TypeContext = NewEmptyTypeContext()
+	p.NonUnionTypeContext = NewEmptyNonUnionTypeContext()
 	p.parser = parser
-	p.CopyFrom(ctx.(*TypeContext))
+	p.CopyFrom(ctx.(*NonUnionTypeContext))
 
 	return p
 }
@@ -463,16 +666,16 @@ func (s *TypeVarContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 type PackVarContext struct {
-	*TypeContext
+	*NonUnionTypeContext
 	name antlr.Token
 }
 
 func NewPackVarContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *PackVarContext {
 	var p = new(PackVarContext)
 
-	p.TypeContext = NewEmptyTypeContext()
+	p.NonUnionTypeContext = NewEmptyNonUnionTypeContext()
 	p.parser = parser
-	p.CopyFrom(ctx.(*TypeContext))
+	p.CopyFrom(ctx.(*NonUnionTypeContext))
 
 	return p
 }
@@ -500,16 +703,16 @@ func (s *PackVarContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 type ListContext struct {
-	*TypeContext
+	*NonUnionTypeContext
 	elemType ITypeContext
 }
 
 func NewListContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ListContext {
 	var p = new(ListContext)
 
-	p.TypeContext = NewEmptyTypeContext()
+	p.NonUnionTypeContext = NewEmptyNonUnionTypeContext()
 	p.parser = parser
-	p.CopyFrom(ctx.(*TypeContext))
+	p.CopyFrom(ctx.(*NonUnionTypeContext))
 
 	return p
 }
@@ -549,16 +752,16 @@ func (s *ListContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 type AtomicTypeContext struct {
-	*TypeContext
+	*NonUnionTypeContext
 	atom IAtomicContext
 }
 
 func NewAtomicTypeContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *AtomicTypeContext {
 	var p = new(AtomicTypeContext)
 
-	p.TypeContext = NewEmptyTypeContext()
+	p.NonUnionTypeContext = NewEmptyNonUnionTypeContext()
 	p.parser = parser
-	p.CopyFrom(ctx.(*TypeContext))
+	p.CopyFrom(ctx.(*NonUnionTypeContext))
 
 	return p
 }
@@ -598,16 +801,16 @@ func (s *AtomicTypeContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 type TupleContext struct {
-	*TypeContext
+	*NonUnionTypeContext
 	types ITupleTypeListContext
 }
 
 func NewTupleContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *TupleContext {
 	var p = new(TupleContext)
 
-	p.TypeContext = NewEmptyTypeContext()
+	p.NonUnionTypeContext = NewEmptyNonUnionTypeContext()
 	p.parser = parser
-	p.CopyFrom(ctx.(*TypeContext))
+	p.CopyFrom(ctx.(*NonUnionTypeContext))
 
 	return p
 }
@@ -646,66 +849,17 @@ func (s *TupleContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	}
 }
 
-type UnionContext struct {
-	*TypeContext
-	types IUnionTypeListContext
-}
-
-func NewUnionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UnionContext {
-	var p = new(UnionContext)
-
-	p.TypeContext = NewEmptyTypeContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*TypeContext))
-
-	return p
-}
-
-func (s *UnionContext) GetTypes() IUnionTypeListContext { return s.types }
-
-func (s *UnionContext) SetTypes(v IUnionTypeListContext) { s.types = v }
-
-func (s *UnionContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *UnionContext) UnionTypeList() IUnionTypeListContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IUnionTypeListContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IUnionTypeListContext)
-}
-
-func (s *UnionContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
-	switch t := visitor.(type) {
-	case TypesVisitor:
-		return t.VisitUnion(s)
-
-	default:
-		return t.VisitChildren(s)
-	}
-}
-
 type StructContext struct {
-	*TypeContext
+	*NonUnionTypeContext
 	fields IFieldListContext
 }
 
 func NewStructContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *StructContext {
 	var p = new(StructContext)
 
-	p.TypeContext = NewEmptyTypeContext()
+	p.NonUnionTypeContext = NewEmptyNonUnionTypeContext()
 	p.parser = parser
-	p.CopyFrom(ctx.(*TypeContext))
+	p.CopyFrom(ctx.(*NonUnionTypeContext))
 
 	return p
 }
@@ -744,12 +898,12 @@ func (s *StructContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	}
 }
 
-func (p *TypesParser) Type() (localctx ITypeContext) {
+func (p *TypesParser) NonUnionType() (localctx INonUnionTypeContext) {
 	this := p
 	_ = this
 
-	localctx = NewTypeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 2, TypesParserRULE_type)
+	localctx = NewNonUnionTypeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 4, TypesParserRULE_nonUnionType)
 
 	defer func() {
 		p.ExitRule()
@@ -767,25 +921,25 @@ func (p *TypesParser) Type() (localctx ITypeContext) {
 		}
 	}()
 
-	p.SetState(42)
+	p.SetState(44)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 0, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewListContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(17)
+			p.SetState(23)
 			p.Match(TypesParserT__0)
 		}
 		{
-			p.SetState(18)
+			p.SetState(24)
 
 			var _x = p.Type()
 
 			localctx.(*ListContext).elemType = _x
 		}
 		{
-			p.SetState(19)
+			p.SetState(25)
 			p.Match(TypesParserT__1)
 		}
 
@@ -793,7 +947,7 @@ func (p *TypesParser) Type() (localctx ITypeContext) {
 		localctx = NewTypeVarContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(21)
+			p.SetState(27)
 
 			var _m = p.Match(TypesParserIDENT)
 
@@ -804,11 +958,11 @@ func (p *TypesParser) Type() (localctx ITypeContext) {
 		localctx = NewPackVarContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(22)
+			p.SetState(28)
 			p.Match(TypesParserT__2)
 		}
 		{
-			p.SetState(23)
+			p.SetState(29)
 
 			var _m = p.Match(TypesParserIDENT)
 
@@ -819,90 +973,71 @@ func (p *TypesParser) Type() (localctx ITypeContext) {
 		localctx = NewTupleContext(p, localctx)
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(24)
+			p.SetState(30)
 			p.Match(TypesParserT__3)
 		}
 		{
-			p.SetState(25)
+			p.SetState(31)
 
 			var _x = p.TupleTypeList()
 
 			localctx.(*TupleContext).types = _x
 		}
 		{
-			p.SetState(26)
+			p.SetState(32)
 			p.Match(TypesParserT__4)
 		}
 
 	case 5:
-		localctx = NewUnionContext(p, localctx)
+		localctx = NewStructContext(p, localctx)
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(28)
+			p.SetState(34)
 			p.Match(TypesParserT__5)
 		}
 		{
-			p.SetState(29)
-
-			var _x = p.UnionTypeList()
-
-			localctx.(*UnionContext).types = _x
-		}
-		{
-			p.SetState(30)
-			p.Match(TypesParserT__5)
-		}
-
-	case 6:
-		localctx = NewStructContext(p, localctx)
-		p.EnterOuterAlt(localctx, 6)
-		{
-			p.SetState(32)
-			p.Match(TypesParserT__6)
-		}
-		{
-			p.SetState(33)
+			p.SetState(35)
 
 			var _x = p.FieldList()
 
 			localctx.(*StructContext).fields = _x
 		}
 		{
-			p.SetState(34)
-			p.Match(TypesParserT__7)
+			p.SetState(36)
+			p.Match(TypesParserT__6)
 		}
 
-	case 7:
+	case 6:
 		localctx = NewNamedContext(p, localctx)
-		p.EnterOuterAlt(localctx, 7)
+		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(36)
+			p.SetState(38)
 
 			var _m = p.Match(TypesParserIDENT)
 
 			localctx.(*NamedContext).name = _m
 		}
 		{
-			p.SetState(37)
-			p.Match(TypesParserT__8)
+			p.SetState(39)
+			p.Match(TypesParserT__7)
 		}
 		{
-			p.SetState(38)
+			p.SetState(40)
 
 			var _x = p.TupleTypeList()
 
 			localctx.(*NamedContext).types = _x
 		}
 		{
-			p.SetState(39)
-			p.Match(TypesParserT__9)
+			p.SetState(41)
+			p.Match(TypesParserT__8)
 		}
 
-	case 8:
+	case 7:
 		localctx = NewAtomicTypeContext(p, localctx)
-		p.EnterOuterAlt(localctx, 8)
+		p.EnterOuterAlt(localctx, 7)
 		{
-			p.SetState(41)
+			p.SetState(43)
 
 			var _x = p.Atomic()
 
@@ -1214,7 +1349,7 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 	_ = this
 
 	localctx = NewTupleTypeListContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 4, TypesParserRULE_tupleTypeList)
+	p.EnterRule(localctx, 6, TypesParserRULE_tupleTypeList)
 
 	defer func() {
 		p.ExitRule()
@@ -1234,35 +1369,35 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 
 	var _alt int
 
-	p.SetState(67)
+	p.SetState(69)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewTupleTypeListOnlyExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(44)
+			p.SetState(46)
 
 			var _x = p.Type()
 
 			localctx.(*TupleTypeListOnlyExpansionContext).pattern = _x
 		}
 		{
-			p.SetState(45)
-			p.Match(TypesParserT__10)
+			p.SetState(47)
+			p.Match(TypesParserT__9)
 		}
 
 	case 2:
 		localctx = NewTupleTypeListNoExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
-		p.SetState(50)
+		p.SetState(52)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(47)
+					p.SetState(49)
 
 					var _x = p.Type()
 
@@ -1270,20 +1405,20 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 				}
 				localctx.(*TupleTypeListNoExpansionContext).types = append(localctx.(*TupleTypeListNoExpansionContext).types, localctx.(*TupleTypeListNoExpansionContext)._type)
 				{
-					p.SetState(48)
-					p.Match(TypesParserT__11)
+					p.SetState(50)
+					p.Match(TypesParserT__10)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(52)
+			p.SetState(54)
 			p.GetErrorHandler().Sync(p)
-			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext())
+			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(54)
+			p.SetState(56)
 
 			var _x = p.Type()
 
@@ -1293,14 +1428,14 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 	case 3:
 		localctx = NewTupleTypeListExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
-		p.SetState(59)
+		p.SetState(61)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(56)
+					p.SetState(58)
 
 					var _x = p.Type()
 
@@ -1308,28 +1443,28 @@ func (p *TypesParser) TupleTypeList() (localctx ITupleTypeListContext) {
 				}
 				localctx.(*TupleTypeListExpansionContext).types = append(localctx.(*TupleTypeListExpansionContext).types, localctx.(*TupleTypeListExpansionContext)._type)
 				{
-					p.SetState(57)
-					p.Match(TypesParserT__11)
+					p.SetState(59)
+					p.Match(TypesParserT__10)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(61)
+			p.SetState(63)
 			p.GetErrorHandler().Sync(p)
-			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
+			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(63)
+			p.SetState(65)
 
 			var _x = p.Type()
 
 			localctx.(*TupleTypeListExpansionContext).pattern = _x
 		}
 		{
-			p.SetState(64)
-			p.Match(TypesParserT__10)
+			p.SetState(66)
+			p.Match(TypesParserT__9)
 		}
 
 	case 4:
@@ -1393,9 +1528,9 @@ func (s *UnionTypeListContext) ToStringTree(ruleNames []string, recog antlr.Reco
 
 type UnionTypeListNoExpansionContext struct {
 	*UnionTypeListContext
-	_type     ITypeContext
-	types     []ITypeContext
-	finalType ITypeContext
+	_nonUnionType INonUnionTypeContext
+	types         []INonUnionTypeContext
+	finalType     INonUnionTypeContext
 }
 
 func NewUnionTypeListNoExpansionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UnionTypeListNoExpansionContext {
@@ -1408,36 +1543,40 @@ func NewUnionTypeListNoExpansionContext(parser antlr.Parser, ctx antlr.ParserRul
 	return p
 }
 
-func (s *UnionTypeListNoExpansionContext) Get_type() ITypeContext { return s._type }
+func (s *UnionTypeListNoExpansionContext) Get_nonUnionType() INonUnionTypeContext {
+	return s._nonUnionType
+}
 
-func (s *UnionTypeListNoExpansionContext) GetFinalType() ITypeContext { return s.finalType }
+func (s *UnionTypeListNoExpansionContext) GetFinalType() INonUnionTypeContext { return s.finalType }
 
-func (s *UnionTypeListNoExpansionContext) Set_type(v ITypeContext) { s._type = v }
+func (s *UnionTypeListNoExpansionContext) Set_nonUnionType(v INonUnionTypeContext) {
+	s._nonUnionType = v
+}
 
-func (s *UnionTypeListNoExpansionContext) SetFinalType(v ITypeContext) { s.finalType = v }
+func (s *UnionTypeListNoExpansionContext) SetFinalType(v INonUnionTypeContext) { s.finalType = v }
 
-func (s *UnionTypeListNoExpansionContext) GetTypes() []ITypeContext { return s.types }
+func (s *UnionTypeListNoExpansionContext) GetTypes() []INonUnionTypeContext { return s.types }
 
-func (s *UnionTypeListNoExpansionContext) SetTypes(v []ITypeContext) { s.types = v }
+func (s *UnionTypeListNoExpansionContext) SetTypes(v []INonUnionTypeContext) { s.types = v }
 
 func (s *UnionTypeListNoExpansionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *UnionTypeListNoExpansionContext) AllType() []ITypeContext {
+func (s *UnionTypeListNoExpansionContext) AllNonUnionType() []INonUnionTypeContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(ITypeContext); ok {
+		if _, ok := ctx.(INonUnionTypeContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]ITypeContext, len)
+	tst := make([]INonUnionTypeContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(ITypeContext); ok {
-			tst[i] = t.(ITypeContext)
+		if t, ok := ctx.(INonUnionTypeContext); ok {
+			tst[i] = t.(INonUnionTypeContext)
 			i++
 		}
 	}
@@ -1445,11 +1584,11 @@ func (s *UnionTypeListNoExpansionContext) AllType() []ITypeContext {
 	return tst
 }
 
-func (s *UnionTypeListNoExpansionContext) Type(i int) ITypeContext {
+func (s *UnionTypeListNoExpansionContext) NonUnionType(i int) INonUnionTypeContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ITypeContext); ok {
+		if _, ok := ctx.(INonUnionTypeContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -1462,7 +1601,7 @@ func (s *UnionTypeListNoExpansionContext) Type(i int) ITypeContext {
 		return nil
 	}
 
-	return t.(ITypeContext)
+	return t.(INonUnionTypeContext)
 }
 
 func (s *UnionTypeListNoExpansionContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
@@ -1477,7 +1616,7 @@ func (s *UnionTypeListNoExpansionContext) Accept(visitor antlr.ParseTreeVisitor)
 
 type UnionTypeListOnlyExpansionContext struct {
 	*UnionTypeListContext
-	pattern ITypeContext
+	pattern INonUnionTypeContext
 }
 
 func NewUnionTypeListOnlyExpansionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UnionTypeListOnlyExpansionContext {
@@ -1490,18 +1629,18 @@ func NewUnionTypeListOnlyExpansionContext(parser antlr.Parser, ctx antlr.ParserR
 	return p
 }
 
-func (s *UnionTypeListOnlyExpansionContext) GetPattern() ITypeContext { return s.pattern }
+func (s *UnionTypeListOnlyExpansionContext) GetPattern() INonUnionTypeContext { return s.pattern }
 
-func (s *UnionTypeListOnlyExpansionContext) SetPattern(v ITypeContext) { s.pattern = v }
+func (s *UnionTypeListOnlyExpansionContext) SetPattern(v INonUnionTypeContext) { s.pattern = v }
 
 func (s *UnionTypeListOnlyExpansionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *UnionTypeListOnlyExpansionContext) Type() ITypeContext {
+func (s *UnionTypeListOnlyExpansionContext) NonUnionType() INonUnionTypeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ITypeContext); ok {
+		if _, ok := ctx.(INonUnionTypeContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1511,7 +1650,7 @@ func (s *UnionTypeListOnlyExpansionContext) Type() ITypeContext {
 		return nil
 	}
 
-	return t.(ITypeContext)
+	return t.(INonUnionTypeContext)
 }
 
 func (s *UnionTypeListOnlyExpansionContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
@@ -1526,9 +1665,9 @@ func (s *UnionTypeListOnlyExpansionContext) Accept(visitor antlr.ParseTreeVisito
 
 type UnionTypeListExpansionContext struct {
 	*UnionTypeListContext
-	_type   ITypeContext
-	types   []ITypeContext
-	pattern ITypeContext
+	_nonUnionType INonUnionTypeContext
+	types         []INonUnionTypeContext
+	pattern       INonUnionTypeContext
 }
 
 func NewUnionTypeListExpansionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UnionTypeListExpansionContext {
@@ -1541,36 +1680,38 @@ func NewUnionTypeListExpansionContext(parser antlr.Parser, ctx antlr.ParserRuleC
 	return p
 }
 
-func (s *UnionTypeListExpansionContext) Get_type() ITypeContext { return s._type }
+func (s *UnionTypeListExpansionContext) Get_nonUnionType() INonUnionTypeContext {
+	return s._nonUnionType
+}
 
-func (s *UnionTypeListExpansionContext) GetPattern() ITypeContext { return s.pattern }
+func (s *UnionTypeListExpansionContext) GetPattern() INonUnionTypeContext { return s.pattern }
 
-func (s *UnionTypeListExpansionContext) Set_type(v ITypeContext) { s._type = v }
+func (s *UnionTypeListExpansionContext) Set_nonUnionType(v INonUnionTypeContext) { s._nonUnionType = v }
 
-func (s *UnionTypeListExpansionContext) SetPattern(v ITypeContext) { s.pattern = v }
+func (s *UnionTypeListExpansionContext) SetPattern(v INonUnionTypeContext) { s.pattern = v }
 
-func (s *UnionTypeListExpansionContext) GetTypes() []ITypeContext { return s.types }
+func (s *UnionTypeListExpansionContext) GetTypes() []INonUnionTypeContext { return s.types }
 
-func (s *UnionTypeListExpansionContext) SetTypes(v []ITypeContext) { s.types = v }
+func (s *UnionTypeListExpansionContext) SetTypes(v []INonUnionTypeContext) { s.types = v }
 
 func (s *UnionTypeListExpansionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *UnionTypeListExpansionContext) AllType() []ITypeContext {
+func (s *UnionTypeListExpansionContext) AllNonUnionType() []INonUnionTypeContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(ITypeContext); ok {
+		if _, ok := ctx.(INonUnionTypeContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]ITypeContext, len)
+	tst := make([]INonUnionTypeContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(ITypeContext); ok {
-			tst[i] = t.(ITypeContext)
+		if t, ok := ctx.(INonUnionTypeContext); ok {
+			tst[i] = t.(INonUnionTypeContext)
 			i++
 		}
 	}
@@ -1578,11 +1719,11 @@ func (s *UnionTypeListExpansionContext) AllType() []ITypeContext {
 	return tst
 }
 
-func (s *UnionTypeListExpansionContext) Type(i int) ITypeContext {
+func (s *UnionTypeListExpansionContext) NonUnionType(i int) INonUnionTypeContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ITypeContext); ok {
+		if _, ok := ctx.(INonUnionTypeContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -1595,7 +1736,7 @@ func (s *UnionTypeListExpansionContext) Type(i int) ITypeContext {
 		return nil
 	}
 
-	return t.(ITypeContext)
+	return t.(INonUnionTypeContext)
 }
 
 func (s *UnionTypeListExpansionContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
@@ -1641,7 +1782,7 @@ func (p *TypesParser) UnionTypeList() (localctx IUnionTypeListContext) {
 	_ = this
 
 	localctx = NewUnionTypeListContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, TypesParserRULE_unionTypeList)
+	p.EnterRule(localctx, 8, TypesParserRULE_unionTypeList)
 
 	defer func() {
 		p.ExitRule()
@@ -1661,58 +1802,58 @@ func (p *TypesParser) UnionTypeList() (localctx IUnionTypeListContext) {
 
 	var _alt int
 
-	p.SetState(92)
+	p.SetState(94)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewUnionTypeListOnlyExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(69)
+			p.SetState(71)
 
-			var _x = p.Type()
+			var _x = p.NonUnionType()
 
 			localctx.(*UnionTypeListOnlyExpansionContext).pattern = _x
 		}
 		{
-			p.SetState(70)
-			p.Match(TypesParserT__10)
+			p.SetState(72)
+			p.Match(TypesParserT__9)
 		}
 
 	case 2:
 		localctx = NewUnionTypeListNoExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
-		p.SetState(75)
+		p.SetState(77)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(72)
+					p.SetState(74)
 
-					var _x = p.Type()
+					var _x = p.NonUnionType()
 
-					localctx.(*UnionTypeListNoExpansionContext)._type = _x
+					localctx.(*UnionTypeListNoExpansionContext)._nonUnionType = _x
 				}
-				localctx.(*UnionTypeListNoExpansionContext).types = append(localctx.(*UnionTypeListNoExpansionContext).types, localctx.(*UnionTypeListNoExpansionContext)._type)
+				localctx.(*UnionTypeListNoExpansionContext).types = append(localctx.(*UnionTypeListNoExpansionContext).types, localctx.(*UnionTypeListNoExpansionContext)._nonUnionType)
 				{
-					p.SetState(73)
-					p.Match(TypesParserT__5)
+					p.SetState(75)
+					p.Match(TypesParserT__11)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(77)
+			p.SetState(79)
 			p.GetErrorHandler().Sync(p)
-			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
+			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(79)
+			p.SetState(81)
 
-			var _x = p.Type()
+			var _x = p.NonUnionType()
 
 			localctx.(*UnionTypeListNoExpansionContext).finalType = _x
 		}
@@ -1720,43 +1861,43 @@ func (p *TypesParser) UnionTypeList() (localctx IUnionTypeListContext) {
 	case 3:
 		localctx = NewUnionTypeListExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
-		p.SetState(84)
+		p.SetState(86)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(81)
+					p.SetState(83)
 
-					var _x = p.Type()
+					var _x = p.NonUnionType()
 
-					localctx.(*UnionTypeListExpansionContext)._type = _x
+					localctx.(*UnionTypeListExpansionContext)._nonUnionType = _x
 				}
-				localctx.(*UnionTypeListExpansionContext).types = append(localctx.(*UnionTypeListExpansionContext).types, localctx.(*UnionTypeListExpansionContext)._type)
+				localctx.(*UnionTypeListExpansionContext).types = append(localctx.(*UnionTypeListExpansionContext).types, localctx.(*UnionTypeListExpansionContext)._nonUnionType)
 				{
-					p.SetState(82)
-					p.Match(TypesParserT__5)
+					p.SetState(84)
+					p.Match(TypesParserT__11)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(86)
+			p.SetState(88)
 			p.GetErrorHandler().Sync(p)
-			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
+			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(88)
+			p.SetState(90)
 
-			var _x = p.Type()
+			var _x = p.NonUnionType()
 
 			localctx.(*UnionTypeListExpansionContext).pattern = _x
 		}
 		{
-			p.SetState(89)
-			p.Match(TypesParserT__10)
+			p.SetState(91)
+			p.Match(TypesParserT__9)
 		}
 
 	case 4:
@@ -2193,7 +2334,7 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 	_ = this
 
 	localctx = NewFieldListContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 8, TypesParserRULE_fieldList)
+	p.EnterRule(localctx, 10, TypesParserRULE_fieldList)
 	var _la int
 
 	defer func() {
@@ -2214,50 +2355,50 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 
 	var _alt int
 
-	p.SetState(129)
+	p.SetState(131)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 9, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 10, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewFieldListOnlyExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(94)
+			p.SetState(96)
 			p.Match(TypesParserT__2)
 		}
 		{
-			p.SetState(95)
+			p.SetState(97)
 
 			var _m = p.Match(TypesParserIDENT)
 
 			localctx.(*FieldListOnlyExpansionContext).namePattern = _m
 		}
 		{
-			p.SetState(96)
+			p.SetState(98)
 			p.Match(TypesParserT__12)
 		}
 		{
-			p.SetState(97)
+			p.SetState(99)
 
 			var _x = p.Type()
 
 			localctx.(*FieldListOnlyExpansionContext).typePattern = _x
 		}
 		{
-			p.SetState(98)
-			p.Match(TypesParserT__10)
+			p.SetState(100)
+			p.Match(TypesParserT__9)
 		}
 
 	case 2:
 		localctx = NewFieldListNoExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
-		p.SetState(105)
+		p.SetState(107)
 		p.GetErrorHandler().Sync(p)
 		_alt = 1
 		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(100)
+					p.SetState(102)
 
 					var _x = p.FieldName()
 
@@ -2265,11 +2406,11 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 				}
 				localctx.(*FieldListNoExpansionContext).names = append(localctx.(*FieldListNoExpansionContext).names, localctx.(*FieldListNoExpansionContext)._fieldName)
 				{
-					p.SetState(101)
+					p.SetState(103)
 					p.Match(TypesParserT__12)
 				}
 				{
-					p.SetState(102)
+					p.SetState(104)
 
 					var _x = p.Type()
 
@@ -2277,31 +2418,31 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 				}
 				localctx.(*FieldListNoExpansionContext).types = append(localctx.(*FieldListNoExpansionContext).types, localctx.(*FieldListNoExpansionContext)._type)
 				{
-					p.SetState(103)
-					p.Match(TypesParserT__11)
+					p.SetState(105)
+					p.Match(TypesParserT__10)
 				}
 
 			default:
 				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(107)
+			p.SetState(109)
 			p.GetErrorHandler().Sync(p)
-			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext())
+			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
 		}
 		{
-			p.SetState(109)
+			p.SetState(111)
 
 			var _x = p.FieldName()
 
 			localctx.(*FieldListNoExpansionContext).finalName = _x
 		}
 		{
-			p.SetState(110)
+			p.SetState(112)
 			p.Match(TypesParserT__12)
 		}
 		{
-			p.SetState(111)
+			p.SetState(113)
 
 			var _x = p.Type()
 
@@ -2311,13 +2452,13 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 	case 3:
 		localctx = NewFieldListExpansionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
-		p.SetState(118)
+		p.SetState(120)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
 		for ok := true; ok; ok = _la == TypesParserIDENT || _la == TypesParserFIXED_FIELDNAME {
 			{
-				p.SetState(113)
+				p.SetState(115)
 
 				var _x = p.FieldName()
 
@@ -2325,11 +2466,11 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 			}
 			localctx.(*FieldListExpansionContext).names = append(localctx.(*FieldListExpansionContext).names, localctx.(*FieldListExpansionContext)._fieldName)
 			{
-				p.SetState(114)
+				p.SetState(116)
 				p.Match(TypesParserT__12)
 			}
 			{
-				p.SetState(115)
+				p.SetState(117)
 
 				var _x = p.Type()
 
@@ -2337,39 +2478,39 @@ func (p *TypesParser) FieldList() (localctx IFieldListContext) {
 			}
 			localctx.(*FieldListExpansionContext).types = append(localctx.(*FieldListExpansionContext).types, localctx.(*FieldListExpansionContext)._type)
 			{
-				p.SetState(116)
-				p.Match(TypesParserT__11)
+				p.SetState(118)
+				p.Match(TypesParserT__10)
 			}
 
-			p.SetState(120)
+			p.SetState(122)
 			p.GetErrorHandler().Sync(p)
 			_la = p.GetTokenStream().LA(1)
 		}
 		{
-			p.SetState(122)
+			p.SetState(124)
 			p.Match(TypesParserT__2)
 		}
 		{
-			p.SetState(123)
+			p.SetState(125)
 
 			var _m = p.Match(TypesParserIDENT)
 
 			localctx.(*FieldListExpansionContext).namePattern = _m
 		}
 		{
-			p.SetState(124)
+			p.SetState(126)
 			p.Match(TypesParserT__12)
 		}
 		{
-			p.SetState(125)
+			p.SetState(127)
 
 			var _x = p.Type()
 
 			localctx.(*FieldListExpansionContext).typePattern = _x
 		}
 		{
-			p.SetState(126)
-			p.Match(TypesParserT__10)
+			p.SetState(128)
+			p.Match(TypesParserT__9)
 		}
 
 	case 4:
@@ -2510,7 +2651,7 @@ func (p *TypesParser) FieldName() (localctx IFieldNameContext) {
 	_ = this
 
 	localctx = NewFieldNameContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 10, TypesParserRULE_fieldName)
+	p.EnterRule(localctx, 12, TypesParserRULE_fieldName)
 
 	defer func() {
 		p.ExitRule()
@@ -2528,7 +2669,7 @@ func (p *TypesParser) FieldName() (localctx IFieldNameContext) {
 		}
 	}()
 
-	p.SetState(133)
+	p.SetState(135)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
@@ -2536,7 +2677,7 @@ func (p *TypesParser) FieldName() (localctx IFieldNameContext) {
 		localctx = NewFieldNameFixedContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(131)
+			p.SetState(133)
 
 			var _m = p.Match(TypesParserFIXED_FIELDNAME)
 
@@ -2547,7 +2688,7 @@ func (p *TypesParser) FieldName() (localctx IFieldNameContext) {
 		localctx = NewFieldNameVariableContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(132)
+			p.SetState(134)
 
 			var _m = p.Match(TypesParserIDENT)
 
@@ -2673,7 +2814,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	_ = this
 
 	localctx = NewAtomicContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 12, TypesParserRULE_atomic)
+	p.EnterRule(localctx, 14, TypesParserRULE_atomic)
 
 	defer func() {
 		p.ExitRule()
@@ -2691,14 +2832,14 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 		}
 	}()
 
-	p.SetState(145)
+	p.SetState(147)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case TypesParserATOMIC_INT32:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(135)
+			p.SetState(137)
 
 			var _m = p.Match(TypesParserATOMIC_INT32)
 
@@ -2708,7 +2849,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_UINT32:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(136)
+			p.SetState(138)
 
 			var _m = p.Match(TypesParserATOMIC_UINT32)
 
@@ -2718,7 +2859,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_INT64:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(137)
+			p.SetState(139)
 
 			var _m = p.Match(TypesParserATOMIC_INT64)
 
@@ -2728,7 +2869,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_UINT64:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(138)
+			p.SetState(140)
 
 			var _m = p.Match(TypesParserATOMIC_UINT64)
 
@@ -2738,7 +2879,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_STRING:
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(139)
+			p.SetState(141)
 
 			var _m = p.Match(TypesParserATOMIC_STRING)
 
@@ -2748,7 +2889,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_BOOL:
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(140)
+			p.SetState(142)
 
 			var _m = p.Match(TypesParserATOMIC_BOOL)
 
@@ -2758,7 +2899,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_BYTES:
 		p.EnterOuterAlt(localctx, 7)
 		{
-			p.SetState(141)
+			p.SetState(143)
 
 			var _m = p.Match(TypesParserATOMIC_BYTES)
 
@@ -2768,7 +2909,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_DOUBLE:
 		p.EnterOuterAlt(localctx, 8)
 		{
-			p.SetState(142)
+			p.SetState(144)
 
 			var _m = p.Match(TypesParserATOMIC_DOUBLE)
 
@@ -2778,7 +2919,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_FLOAT:
 		p.EnterOuterAlt(localctx, 9)
 		{
-			p.SetState(143)
+			p.SetState(145)
 
 			var _m = p.Match(TypesParserATOMIC_FLOAT)
 
@@ -2788,7 +2929,7 @@ func (p *TypesParser) Atomic() (localctx IAtomicContext) {
 	case TypesParserATOMIC_CHAR:
 		p.EnterOuterAlt(localctx, 10)
 		{
-			p.SetState(144)
+			p.SetState(146)
 
 			var _m = p.Match(TypesParserATOMIC_CHAR)
 

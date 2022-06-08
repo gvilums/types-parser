@@ -44,6 +44,10 @@ func (v *typesVisitor) VisitStart(ctx *parser.StartContext) interface{} {
 	return ctx.GetValue().Accept(v)
 }
 
+func (v *typesVisitor) VisitTypeNonUnion(ctx *parser.TypeNonUnionContext) interface{} {
+	return ctx.GetT().Accept(v)
+}
+
 func (v *typesVisitor) VisitList(ctx *parser.ListContext) interface{} {
 	out := ctx.GetElemType().Accept(v)
 	if out == nil {
@@ -60,15 +64,6 @@ func (v *typesVisitor) VisitTuple(ctx *parser.TupleContext) interface{} {
 	}
 	tl := out.(pipelang.TypeList)
 	return pipelang.PipelangType{Type: &pipelang.PipelangType_Tuple{Tuple: &pipelang.Tuple{Types: &tl}}}
-}
-
-func (v *typesVisitor) VisitUnion(ctx *parser.UnionContext) interface{} {
-	out := ctx.GetTypes().Accept(v)
-	if out == nil {
-		return nil
-	}
-	tl := out.(pipelang.TypeList)
-	return pipelang.PipelangType{Type: &pipelang.PipelangType_Union{Union: &pipelang.Union{Types: &tl}}}
 }
 
 func (v *typesVisitor) VisitStruct(ctx *parser.StructContext) interface{} {
@@ -103,6 +98,15 @@ func (v *typesVisitor) VisitTypeVar(ctx *parser.TypeVarContext) interface{} {
 func (v *typesVisitor) VisitAtomicType(ctx *parser.AtomicTypeContext) interface{} {
 	out := ctx.GetAtom().Accept(v).(pipelang.Atomic)
 	return pipelang.PipelangType{Type: &pipelang.PipelangType_Atomic{Atomic: out}}
+}
+
+func (v *typesVisitor) VisitTypeUnion(ctx *parser.TypeUnionContext) interface{} {
+	out := ctx.GetTypes().Accept(v)
+	if out == nil {
+		return nil
+	}
+	tl := out.(pipelang.TypeList)
+	return pipelang.PipelangType{Type: &pipelang.PipelangType_Union{Union: &pipelang.Union{Types: &tl}}}
 }
 
 // TYPE LIST
@@ -367,7 +371,7 @@ func ParseType(input string) (pipelang.PipelangType, error) {
 }
 
 func main() {
-	result, err := ParseType("{a: int32, b: string, $c:(int32, $a)...}")
+	result, err := ParseType("int32 | string")
 	if err != nil {
 		panic(err)
 	} else {

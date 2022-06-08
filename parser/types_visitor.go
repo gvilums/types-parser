@@ -11,6 +11,12 @@ type TypesVisitor interface {
 	// Visit a parse tree produced by TypesParser#start.
 	VisitStart(ctx *StartContext) interface{}
 
+	// Visit a parse tree produced by TypesParser#TypeNonUnion.
+	VisitTypeNonUnion(ctx *TypeNonUnionContext) interface{}
+
+	// Visit a parse tree produced by TypesParser#TypeUnion.
+	VisitTypeUnion(ctx *TypeUnionContext) interface{}
+
 	// Visit a parse tree produced by TypesParser#List.
 	VisitList(ctx *ListContext) interface{}
 
@@ -22,9 +28,6 @@ type TypesVisitor interface {
 
 	// Visit a parse tree produced by TypesParser#Tuple.
 	VisitTuple(ctx *TupleContext) interface{}
-
-	// Visit a parse tree produced by TypesParser#Union.
-	VisitUnion(ctx *UnionContext) interface{}
 
 	// Visit a parse tree produced by TypesParser#Struct.
 	VisitStruct(ctx *StructContext) interface{}

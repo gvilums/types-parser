@@ -12,6 +12,14 @@ func (v *BaseTypesVisitor) VisitStart(ctx *StartContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseTypesVisitor) VisitTypeNonUnion(ctx *TypeNonUnionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTypesVisitor) VisitTypeUnion(ctx *TypeUnionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseTypesVisitor) VisitList(ctx *ListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -25,10 +33,6 @@ func (v *BaseTypesVisitor) VisitPackVar(ctx *PackVarContext) interface{} {
 }
 
 func (v *BaseTypesVisitor) VisitTuple(ctx *TupleContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseTypesVisitor) VisitUnion(ctx *UnionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
