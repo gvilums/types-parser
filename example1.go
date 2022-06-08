@@ -22,14 +22,14 @@ import (
 // 	}
 // }
 
-func parseTuple(input string) (pipelang.Tuple, string, error) {
+// func parseTuple(input string) (pipelang.Tuple, string, error) {
 
-	return pipelang.Tuple{Types: &pipelang.TypeList{}}, input, nil
-}
+// 	return pipelang.Tuple{Types: &pipelang.TypeList{}}, input, nil
+// }
 
-func parseTypeList(input string) (pipelang.TypeList, string, error) {
-	return pipelang.TypeList{}, input, nil
-}
+// func parseTypeList(input string) (pipelang.TypeList, string, error) {
+// 	return pipelang.TypeList{}, input, nil
+// }
 
 // func parseList(input string) (pipelang.List, string, error) {
 // 	if input[0] != '[' {
@@ -50,36 +50,38 @@ func parseTypeList(input string) (pipelang.TypeList, string, error) {
 // }
 
 type typesVisitor struct {
-	*parser.BaseTypesVisitor
+	*antlr.BaseParseTreeVisitor
+}
+
+func NewTypesVisitor() typesVisitor {
+	return typesVisitor{BaseParseTreeVisitor: &antlr.BaseParseTreeVisitor{}}
 }
 
 // TYPE
 
 func (v *typesVisitor) VisitStart(ctx *parser.StartContext) interface{} {
-	return v.Visit(ctx.GetValue())
+	return ctx.GetValue().Accept(v)
 }
 
-func (v *typesVisitor) VisitList(ctx *parser.ListContext) pipelang.List {
-	out := v.Visit(ctx.GetElemType()).(pipelang.PipelangType)
-	return pipelang.List{ElemType: &out}
+func (v *typesVisitor) VisitList(ctx *parser.ListContext) pipelang.PipelangType {
+	out := ctx.GetElemType().Accept(v).(pipelang.PipelangType)
+	return pipelang.PipelangType{Type: &pipelang.PipelangType_List{List: &pipelang.List{ElemType: &out}}}
 }
 
-func (v *typesVisitor) VisitTuple(ctx *parser.TupleContext) pipelang.Tuple {
-	out := v.Visit(ctx.GetTypes()).(pipelang.TypeList)
-	return pipelang.Tuple{Types: &out}
+func (v *typesVisitor) VisitTuple(ctx *parser.TupleContext) pipelang.PipelangType {
+	out := ctx.GetTypes().Accept(v).(pipelang.TypeList)
+	return pipelang.PipelangType{Type: &pipelang.PipelangType_Tuple{Tuple: &pipelang.Tuple{Types: &out}}}
 }
 
-func (v *typesVisitor) VisitAtomicType(ctx *parser.TupleContext) pipelang.PipelangType {
-	out := v.Visit(ctx.GetTypes()).(pipelang.TypeList)
-	x := pipelang.PipelangType{Type: }
-	return pipelang.PipelangType{Type: pipelang.TypeVariable{name: "test"}}
-	return pipelang.Tuple{Types: &out}
+func (v *typesVisitor) VisitAtomicType(ctx *parser.AtomicTypeContext) pipelang.PipelangType {
+	out := ctx.GetAtom().Accept(v).(pipelang.Atomic)
+	return pipelang.PipelangType{Type: &pipelang.PipelangType_Atomic{Atomic: out}}
 }
 
 // TYPE LIST
 
 func (v *typesVisitor) VisitTypeListOnlyExpansion(ctx *parser.TypeListOnlyExpansionContext) pipelang.TypeList {
-	pattern := v.Visit(ctx.GetPattern()).(pipelang.PipelangType)
+	pattern := ctx.GetPattern().Accept(v).(pipelang.PipelangType)
 	return pipelang.TypeList{Fixed: make([]*pipelang.PipelangType, 0), Expansion: &pattern}
 }
 
@@ -87,7 +89,7 @@ func (v *typesVisitor) VisitTypeListNoExpansion(ctx *parser.TypeListNoExpansionC
 	types := ctx.GetTypes()
 	fixed := make([]*pipelang.PipelangType, len(types))
 	for i, t := range types {
-		out := v.Visit(t).(pipelang.PipelangType)
+		out := t.Accept(v).(pipelang.PipelangType)
 		fixed[i] = &out
 	}
 	return pipelang.TypeList{Fixed: fixed, Expansion: nil}
@@ -97,10 +99,10 @@ func (v *typesVisitor) VisitTypeListExpansion(ctx *parser.TypeListExpansionConte
 	types := ctx.GetTypes()
 	fixed := make([]*pipelang.PipelangType, len(types))
 	for i, t := range types {
-		out := v.Visit(t).(pipelang.PipelangType)
+		out := t.Accept(v).(pipelang.PipelangType)
 		fixed[i] = &out
 	}
-	pattern := v.Visit(ctx.GetPattern()).(pipelang.PipelangType)
+	pattern := ctx.GetPattern().Accept(v).(pipelang.PipelangType)
 	return pipelang.TypeList{Fixed: fixed, Expansion: &pattern}
 }
 
@@ -108,7 +110,7 @@ func (v *typesVisitor) VisitTypeListEmpty(ctx *parser.TypeListEmptyContext) pipe
 	return pipelang.TypeList{Fixed: make([]*pipelang.PipelangType, 0), Expansion: nil}
 }
 
-func (v *typesVisitor) VisitAtomic(ctx *parser.AtomicContext) pipelang.Atomic {
+func (v *typesVisitor) VisitAtomic(ctx *parser.AtomicContext) interface{} {
 	switch ctx.GetName().GetTokenType() {
 	case parser.TypesParserATOMIC_INT32:
 		return pipelang.Atomic_INT32
@@ -119,6 +121,10 @@ func (v *typesVisitor) VisitAtomic(ctx *parser.AtomicContext) pipelang.Atomic {
 	}
 }
 
+// func (v *typesVisitor) VisitAtomic(ctx *parser.AtomicContext) interface{} {
+// 	return v.VisitChildren(ctx)
+// }
+
 func parse_type(input string) *pipelang.PipelangType {
 	is := antlr.NewInputStream(input)
 
@@ -127,9 +133,16 @@ func parse_type(input string) *pipelang.PipelangType {
 
 	p := parser.NewTypesParser(stream)
 
-	var visitor typesVisitor
+	visitor := typesVisitor{BaseParseTreeVisitor: &antlr.BaseParseTreeVisitor{}}
 
-	result := visitor.Visit(p.Start())
+	// visitor := parser.BaseTypesVisitor{BaseParseTreeVisitor: &antlr.BaseParseTreeVisitor{}}
+
+	var opaque interface{} = visitor
+
+	cast_visitor := opaque.(parser.TypesVisitor)
+
+	tree := p.Start()
+	result := cast_visitor.Visit(tree)
 	if result != nil {
 		out := result.(pipelang.PipelangType)
 		return &out
@@ -139,6 +152,6 @@ func parse_type(input string) *pipelang.PipelangType {
 }
 
 func main() {
-	result := parse_type("(int32, [uint32],)")
+	result := parse_type("int32")
 	fmt.Println(result)
 }
