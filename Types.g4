@@ -19,37 +19,33 @@ WHITESPACE: [ \r\n\t]+ -> skip;
 start: value = type EOF;
 
 type:
-    t = nonUnionType                             # TypeNonUnion
-	| types = unionTypeList				         # TypeUnion;
+	t = regularType			# TypeNonUnion
+	| types = unionTypeList	# TypeUnion;
 
-nonUnionType:
+regularType:
 	'[' elemType = type ']'							# List
 	| name = IDENT									# TypeVar
-	| '$' name = IDENT 						        # PackVar
-	| '(' types = tupleTypeList ')'					# Tuple
+	| '$' name = IDENT								# PackVar
 	| '{' fields = fieldList '}'					# Struct
+	| atom = atomic									# AtomicType
+	| name = IDENT '<' elemType = type '>'			# NamedSingle
 	| name = IDENT '<' types = tupleTypeList '>'	# Named
-	| atom = atomic									# AtomicType;
+	| '(' types = tupleTypeList ')'					# Tuple
+	| '(' innerType = type ')'						# Parenthesized;
 
-
-// tuple type lists (also used in named) and union type lists require different rules because they use different separators
 tupleTypeList:
-	pattern = type '...'						# TupleTypeListOnlyExpansion
-	| (types += type ',')+ finalType = type		# TupleTypeListNoExpansion
-	| (types += type ',')+ pattern = type '...'	# TupleTypeListExpansion
+	(types += type ',')* (pattern = type '...')	# TupleTypeListExpansion
+	| (types += type ',')+ (types += type)?		# TupleTypeListNoExpansion
 	|											# TupleTypeListEmpty;
 
 unionTypeList:
-	pattern = nonUnionType '...'						# UnionTypeListOnlyExpansion
-	| (types += nonUnionType '|')+ finalType = nonUnionType		# UnionTypeListNoExpansion
-	| (types += nonUnionType '|')+ pattern = nonUnionType '...'	# UnionTypeListExpansion
-	|											# UnionTypeListEmpty;
+	(types += regularType '|')* (pattern = regularType '...')	# UnionTypeListExpansion
+	| (types += regularType '|')+ (types += regularType)?		# UnionTypeListNoExpansion;
 
 fieldList:
-	'$' namePattern = IDENT ':' typePattern = type '...'									            # FieldListOnlyExpansion
-	| (names += fieldName ':' types += type ',')+ finalName = fieldName ':' finalType = type	        # FieldListNoExpansion
-	| (names += fieldName ':' types += type ',')+ '$' namePattern = IDENT ':' typePattern = type '...'	# FieldListExpansion
-	|				                                                                                    # FieldListEmpty;
+	(names += fieldName ':' types += type ',')* '$' namePattern = IDENT ':' typePattern = type '...' 	# FieldListExpansion
+	| (names += fieldName ':' types += type ',')* names += fieldName ':' types += type 					# FieldListNoExpansion
+	| 																									# FieldListEmpty;
 
 fieldName:
 	name = FIXED_FIELDNAME	# FieldNameFixed
